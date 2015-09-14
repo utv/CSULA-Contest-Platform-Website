@@ -1,0 +1,20 @@
+<template name="register">
+  <h2>Register</h2>
+  <form class="register-form">
+    <p>First: <input type="text" name="firstname"> <b id="firstname_error"></b> 
+    Last: <input type="text" name="lastname"> <b id="lastname_error"></b> </p>
+    <p>Email: <input type="email" name="email"> <b id="email_error"></b>
+    Organization: 
+      <select id="org-picker">
+        {{#each organizations}}
+          <option value="{{name}}">{{name}}</option>
+        {{/each}}
+      </select>
+    </p>
+    <p>Username: <input type="text" name="username"> <b id="username_error"></b> </p>
+    <p>Password: <input type="password" name="password"> <b id="password_error"></b> </p>
+    <p>Reenter password: <input type="password" name="repassword"> <b id="repassword_error"></b> </p>
+    <p><input type="submit" value="register"></p>
+  </form>
+  <h4 id="register_message"></h4>
+</template>

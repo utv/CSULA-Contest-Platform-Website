@@ -1,0 +1,38 @@
+<template name="tournaments">
+  <form class="js-new-tournament">
+    <p>
+      <label>Select game: </label>
+      <select id="game-picker"> 
+        {{#each games}}
+          <option value="{{name}}">{{name}}</option>
+        {{/each}}
+      </select>
+    </p>
+    <p>
+      <label>Name: </label>
+      <input placeholder="Tournament" type="text">  
+    </p>
+  </form>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>Tournament Name</th>
+        <th>Game</th>
+        <th>Number of Players</th>
+        <th>Status</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tournaments}}
+        <tr>
+          <td> <a href="{{ pathFor 'show_tournament' }}">{{name}}</a></td>
+          <td>{{game}}</td>
+          <td>{{players.length}}</td>
+          <td>{{status}}</td>
+          <td> <a href="{{ pathFor 'set_tournament_passwd' }}">Set password</a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

@@ -1,0 +1,18 @@
+<template name="set_tournament_passwd">
+  <h2>{{name}}</h2>
+  <form class="ui form">
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password">
+    </div>
+    <div class="field">
+      <label>Re-enter password</label>
+      <input type="password" name="repassword">
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+    {{#if isPasswordSaved}}
+    <h2>Password has been set!</h2>
+    {{/if}}
+    
+  </form>
+</template>

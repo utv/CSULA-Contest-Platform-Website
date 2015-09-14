@@ -1,0 +1,24 @@
+<template name="appBody">
+  <!-- {{> loginButtons}} -->
+  <div class="ui menu" id="main-menu">
+    <a href="#" class="item">AI Contest by CSULA-CS</a>
+    <a href="#" class="item">{{> loginButtons}}</a>
+    <!-- <a href="{{ pathFor 'activate'}}" class="item">Activate Users</a> -->
+    <a href="{{ pathFor 'tournaments'}}" class="item">Tournaments</a>
+    
+    <!-- {{#if currentUser}}
+      <div class="right menu">
+        <a href="#" class="ui item" id="user_account">{{currentUser.username}}</a>
+      </div>
+    {{else}}
+      <div class="right menu">
+        <a href="{{ pathFor 'login' }}" class="ui item" id="user_account">Login</a>
+      </div>  
+    {{/if}} -->
+    
+  </div>
+
+  <div id="main" class="display-content">
+      {{> yield}}
+  </div>
+</template>
