@@ -1,9 +1,9 @@
 <template name="show_tournament">
   <h2>{{name}}</h2>
-  
   <div class="ui tabular menu">
     <a class="active item" data-tab="display-leader-board">Leader Board</a>
     <a class="item" data-tab="upload-player">Upload Player</a>
+    <a class="item" data-tab="matches">Matches</a>
   </div>
   <div class="ui active tab" data-tab="display-leader-board">
     <table class="ui celled table">
@@ -31,5 +31,38 @@
   <div class="ui tab" data-tab="upload-player">
     <p>Upload your player to join this tournament. System takes some time to compile and verify an uploaded player. {{myData.owner}} </p>
       {{> upload_semanticUI formData=specificFormData }}
+
+      {{#if isLastPlayerFail}}
+        <p style="color:red">
+        Your last uploaded player is fail to compile, we will use the previous one.
+        </p>
+      {{/if}}
+  </div>
+  <div class="ui tab" data-tab="matches">
+    <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>Players/Scores</th>
+          <th>Replay</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {{#each latest_matches}}
+          <tr>
+            <td>
+              {{#each result}}
+                <div>{{username}} / {{score}}</div>
+              {{/each}}
+            </td>
+            <td>
+              <a href="{{ pathFor 'match_replay' _id=this._id._str }}">See the match</a>
+            </td>
+            <td>{{createdAt}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>

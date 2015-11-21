@@ -19,19 +19,23 @@ if (Meteor.isClient) {
     //   return _.sortBy(myPlayers, function(player){ return -player.score; });
     // },
 
+    isLastPlayerFail: function () {
+      return Players.findOne(
+                { 
+                  username: Meteor.user().username, 
+                  tournament: this.name,
+                },
+                { sort: {createdAt: -1} }).status === "fail";
+    },
+
     ranks: function () {
       var theRanks = Matches.findOne({tournament_id: this._id}, {sort: {createdAt: -1}}).ranks;
       return _.sortBy(theRanks, function(rank) { return -rank.rating; });
     },
 
-    // joined: function () {
-
-    //   var tournament = Tournaments.findOne(this._id);
-    //   var isJoined = _.some(tournament.users, function(aUser) {
-    //     return aUser.username == Meteor.user().username; 
-    //   });
-      
-    //   return isJoined;
-    // }
+    latest_matches: function () {
+      return Matches.find({tournament_id: this._id}, {sort: {createdAt: -1}});
+    }
   });
 }
+

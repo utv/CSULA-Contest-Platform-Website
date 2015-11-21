@@ -12,9 +12,11 @@ if (Meteor.isClient) {
     games: function () {
       return Games.find({}, {sort: { name: 1}});
     },
-
     tournaments: function () {
       return Tournaments.find({}, {sort: {name: 1}});
+    },
+    isAdmin: function () {
+      return Meteor.user().username === 'admin';
     }
   });
 
@@ -56,7 +58,7 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
 
-    // code to run on server at startup
+  // code to run on server at startup
 
     function getFileExtension (filename) {
       var a = filename.split(".");
@@ -70,7 +72,7 @@ if (Meteor.isServer) {
       tmpDir: process.env.HOME + '/.ggp-server/uploads/tmp',
       uploadDir: process.env.HOME + '/.ggp-server/uploads',
       checkCreateDirectories: true, //create the directories for you
-      acceptFileTypes: /(^.*(\.|\/)((zip|java)$)(?![^\.\/]*(\.|\/)))|(^[^\.]+$)/i,
+      acceptFileTypes: /(^.*(\.|\/)((zip)$)(?![^\.\/]*(\.|\/)))|(^[^\.]+$)/i,
       getFileName: function (fileInfo, formData) {
         // Name of an uploaded zip file = zip file name + upload date
         var extension = fileInfo.name.split('.').pop();
