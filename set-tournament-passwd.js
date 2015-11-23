@@ -1,19 +1,20 @@
 
 if (Meteor.isClient) {
-
-  Template.set_tournament_passwd.helpers({
-    isPasswordSaved: function () {
-      return Session.get('passwordSaved');
-    }
-  });
-
-
+  
   Template.set_tournament_passwd.events({
     'click .button' : function(event) {
       event.preventDefault();
       var clickedElement = event.target;
       var password = $('input[name=password]').val();
       var repassword = $('input[name=repassword]').val();
+      var MIN_LEN_PASS = 6;
+
+      if (password !== repassword ) { 
+        $('[id=response]').text("These passwords don't match");
+      }
+      if (password === repassword && password.length < MIN_LEN_PASS) {
+        $('[id=response]').text("Password is too short, at least 8 characters.");
+      }
       if (password === repassword ) {
         console.log(clickedElement);
         console.log(repassword);
@@ -26,13 +27,12 @@ if (Meteor.isClient) {
           
           console.log('password saved!');
           console.log('response = ', response);
-          Session.set('passwordSaved', true);
+          
+          $('[id=response]').text("Password has been set!");
           $('.field').hide();
           $('.button').hide();
         });
-        
-      }
-
+      } 
     }
   });
 }
@@ -55,3 +55,23 @@ if (Meteor.isServer) {
     }
   });
 }
+
+Router.route('set_tournament_passwd', {
+  path: '/set_tournament_passwd/:_id',
+  layoutTemplate: 'appBody',
+  template: 'set_tournament_passwd',
+  onBeforeAction: function () {
+    Session.set('passwordSaved', false);
+    if (!Meteor.user()) {
+      // Router.go('login');
+      return;
+    }
+    this.next();
+  },
+  waitOn:function(){
+    return [ Meteor.subscribe('tournaments') ];
+  },
+  data: function () {
+    return Tournaments.findOne({_id: this.params._id});
+  }
+});

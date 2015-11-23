@@ -19,27 +19,24 @@
   <table class="ui celled table">
     <thead>
       <tr>
-        <th>Tournament Name</th>
+        {{#if isAdmin}}
+          <th>Set password for tournament</th>
+          {{else}}
+          <th>Tournament Name</th>
+        {{/if}}
         <th>Game</th>
         <th>Number of Players</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody>
       {{#each tournaments}}
         <tr>
-          <td>{{name}}</td>
+          <td><a href="{{ pathFor 'show_tournament' }}">{{name}}</a></td>
           <td>{{game}}</td>
           <td>{{users.length}}</td>
-          <td> 
-            {{#if isAdmin}}
-              <a href="{{ pathFor 'set_tournament_passwd' }}">Set password</a>
-            {{else}}  
-              <a href="{{ pathFor 'show_tournament' }}">Play</a>
-            {{/if}}
-          </td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+
 </template>

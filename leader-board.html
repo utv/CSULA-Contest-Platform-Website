@@ -1,0 +1,30 @@
+<template name="leader_board">
+  <h4>{{name}}</h4>
+  <ul>
+    <li><a href="{{ pathFor 'show_tournament' _id=this._id }}">Info</a></li>
+    <li><a href="{{ pathFor 'leader_board' _id=this._id }}">Leader Board</a></li>
+    <li><a href="{{ pathFor 'upload_player' _id=this._id }}">Upload Player</a></li>
+    <li><a href="{{ pathFor 'matches' _id=this._id }}">All Matches</a></li>
+  </ul>
+  
+  <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>User</th>
+          <th>Rating</th>
+          <th>Number of Matches</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each ranks}}
+          <tr>
+            <td></td>
+            <td>{{username}}</td>
+            <td>{{rating}}</td>
+            <td>{{numMatch}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+</template>

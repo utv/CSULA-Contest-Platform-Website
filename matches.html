@@ -1,0 +1,34 @@
+<template name="matches">
+<h4>{{name}}</h4>
+  <ul>
+    <li><a href="{{ pathFor 'show_tournament' _id=this._id }}">Info</a></li>
+    <li><a href="{{ pathFor 'leader_board' _id=this._id }}">Leader Board</a></li>
+    <li><a href="{{ pathFor 'upload_player' _id=this._id }}">Upload Player</a></li>
+    <li><a href="{{ pathFor 'matches' _id=this._id }}">All Matches</a></li>
+  </ul>
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Replay</th>
+      <th>Players:Scores</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each latest_matches}}
+      <tr>
+        <td>
+          <a href="{{ pathFor 'match_replay' _id=_id._str }}">Watch</a>
+        </td>
+        <td>
+          {{#each result}}
+            <div>{{username}} : {{score}}</div>
+          {{/each}}
+        </td>
+        <td>{{createdAt}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<button class="fluid ui button" id="load">Load More</button>
+</template>

@@ -1,5 +1,5 @@
 <template name="set_tournament_passwd">
-  <h2>{{name}}</h2>
+  <h4>Set Password For "{{name}}"</h4>
   <form class="ui form">
     <div class="field">
       <label>Password</label>
@@ -13,6 +13,12 @@
     {{#if isPasswordSaved}}
     <h2>Password has been set!</h2>
     {{/if}}
+
+    {{#if passwordsNotMatched}}
+    <h2>These passwords don't match, please try again.</h2>
+    {{/if}}
+
+    <h4 id="response"></h4>
     
   </form>
 </template>

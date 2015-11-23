@@ -21,5 +21,23 @@ if (Meteor.isClient) {
       else $('h2').show();
     }
   });
-
 }
+
+Router.route('join_tournament', {
+  path: '/join/:_id',
+  layoutTemplate: 'appBody',
+  template: 'join_tournament',
+  onBeforeAction: function () {
+    if (!Meteor.user()) {
+      // Router.go('login');
+      return;
+    }
+    this.next();
+  },
+  waitOn:function(){
+    return [ Meteor.subscribe('tournaments') ];
+  },
+  data: function () {
+    return Tournaments.findOne({_id: this.params._id});
+  }
+});

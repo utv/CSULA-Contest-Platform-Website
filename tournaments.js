@@ -1,11 +1,4 @@
 
-Organizations = new Mongo.Collection("organizations");
-Games = new Mongo.Collection("games");
-Players = new Mongo.Collection("players");
-Tournaments = new Mongo.Collection("tournaments");
-Matches = new Mongo.Collection("matches");
-TempUsers = new Mongo.Collection("temp_users");
-
 if (Meteor.isClient) {
   
   Template.tournaments.helpers({
@@ -57,48 +50,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-
-  // code to run on server at startup
-
-    function getFileExtension (filename) {
-      var a = filename.split(".");
-      if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
-        return "";
-      }
-      return a.pop();
-    }
-
-    UploadServer.init({
-      tmpDir: process.env.HOME + '/.ggp-server/uploads/tmp',
-      uploadDir: process.env.HOME + '/.ggp-server/uploads',
-      checkCreateDirectories: true, //create the directories for you
-      acceptFileTypes: /(^.*(\.|\/)((zip)$)(?![^\.\/]*(\.|\/)))|(^[^\.]+$)/i,
-      getFileName: function (fileInfo, formData) {
-        // Name of an uploaded zip file = zip file name + upload date
-        var extension = fileInfo.name.split('.').pop();
-        var base = fileInfo.name.replace(/\.[^/.]+$/, "-") + new Date();
-        return base + '.' + extension;
-      },
-      finished: function(fileInfo, formData) {
-        // perform a disk operation
-        var createDate = new Date();
-        if (formData && formData.tournament != null) {
-          Players.insert({
-            username: formData.username,
-            tournament: formData.tournament,
-            pathToZip: fileInfo.name,
-            pathToClasses: "",
-            status: "uploaded",
-            createdAt: createDate
-            // owner: formData.owner,
-            // name: "Recognizing name",
-            // tournament: formData.tournament,
-          });
-        }
-      }
-
-    });
-
     // Load organizations
     var orgList = {};
     orgList = JSON.parse(Assets.getText("orgList.json"));
@@ -128,3 +79,21 @@ if (Meteor.isServer) {
 
   });
 }
+
+Router.route('/tournaments', {
+  layoutTemplate: 'appBody',
+  template: 'tournaments',
+  onBeforeAction: function () {
+    if (!Meteor.user()) {
+      // Router.go('login');
+      return;
+    }
+    this.next();
+  },
+  waitOn:function(){
+    return [Meteor.subscribe('games'), Meteor.subscribe('tournaments')];
+  },
+  action : function () {
+    this.render();
+  }
+});
