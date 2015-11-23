@@ -1,11 +1,7 @@
-accounts-password      1.1.1  Password support for accounts
-accounts-ui            1.1.5  Simple templates to add login widgets to an app
-autopublish            1.0.3  Publish the entire database to all clients
-insecure               1.0.3  Allow all database writes by default
-iron:router            1.0.9  Routing specifically designed for Meteor
-jparker:crypto-sha256  0.1.1  SHA256 algo for CryptoJS, standard secure crypto algorithms
-meteor-platform        1.2.2  Include a standard set of Meteor packages in your app
-random                 1.0.3  Random number generator and utilities
-semantic:ui-css        1.12.3* Semantic UI - CSS Release of Semantic UI
-tomi:upload-jquery     2.1.8  Client template for uploads using "jquery-file-upload" from blueimp
-tomi:upload-server     1.2.8* Upload server for Meteor. Allows to save and serve files from arbitrary directory
+# Front-End Web Application for CSULA-Contest-Platform
+
+Web app built with Meteor.js
+Features
+1. Upload bot
+2. Leader Board
+3. Watch Replay
