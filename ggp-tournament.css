@@ -1,25 +1,5 @@
 /* CSS declarations go here */
 
-div#vmenu { 
-   margin: 0; 
-   padding: .25em 0em .25em 0em; 
-   border: solid 1px #30c9e0; 
-   background: #fcac4c; 
-   width: 13.5em; 
-} 
-
-div#vmenu ul { 
-   margin: 0; 
-   padding: 0; 
-   list-style: none; 
-} 
-
-div#vmenu ul li { 
-   margin: 0; 
-   padding: 0; 
-   list-style: none; 
-} 
-
 div.display-content {
    margin: 2% 5%;
 }
