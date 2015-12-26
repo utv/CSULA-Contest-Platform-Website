@@ -1,24 +1,33 @@
 <template name="set_tournament_passwd">
-  <h4>Set Password For "{{name}}"</h4>
-  <form class="ui form">
-    <div class="field">
-      <label>Password</label>
-      <input type="password" name="password">
-    </div>
-    <div class="field">
-      <label>Re-enter password</label>
-      <input type="password" name="repassword">
-    </div>
-    <button class="ui button" type="submit">Submit</button>
-    {{#if isPasswordSaved}}
-    <h2>Password has been set!</h2>
-    {{/if}}
-
-    {{#if passwordsNotMatched}}
-    <h2>These passwords don't match, please try again.</h2>
-    {{/if}}
-
-    <h4 id="response"></h4>
+  <h3>{{name}}</h3>
     
-  </form>
+  {{#if isPasswordSaved}}
+    <p class="success_msg">Password has been set!</p>
+    {{else}}
+      <form class="passwd_form">
+        <table class="table_form">
+          <tr>
+            <td align="left"><label>Password</label></td>
+            <td align="right"><input type="password" name="password"></td>
+          </tr>
+          <tr>
+            <td align="left"><label>Re-enter password</label></td>
+            <td align="right"><input type="password" name="repassword"></td>
+          </tr>
+          <tr>
+            <td align="left"><button type="submit">Submit</button></td>
+          </tr>
+        </table>
+
+        {{#if isPasswordsNotMatched}}
+        <p class="error_msg">These passwords don't match, please try again.</p>
+        {{/if}}
+
+        {{#if isPasswordTooShort}}
+        <p class="error_msg">Password requires at least 3 characters.</p>
+        {{/if}}
+      </form>
+  {{/if}}
+
+  <h4 id="response"></h4>
 </template>

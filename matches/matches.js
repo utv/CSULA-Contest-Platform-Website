@@ -10,6 +10,12 @@ if (Meteor.isClient) {
   });
 
   Template.matches.helpers({
+    isThereMatchPlayed: function () {
+      var match = Matches.findOne({tournament_id: this._id});
+      if (match !== undefined) 
+        return true;
+      return false;
+    },
     latest_matches: function () {
       return Matches.find({ tournament_id: this._id }, 
                           { sort: {createdAt: -1}, 

@@ -1,11 +1,4 @@
 <template name="show_tournament">
-  <h4>{{name}}</h4>
-  <ul>
-    <li><a href="{{ pathFor 'show_tournament' _id=this._id }}">Info</a></li>
-    <li><a href="{{ pathFor 'leader_board' _id=this._id }}">Leader Board</a></li>
-    <li><a href="{{ pathFor 'upload_player' _id=this._id }}">Upload Player</a></li>
-    <li><a href="{{ pathFor 'matches' _id=this._id }}">All Matches</a></li>
-  </ul>
-  
+  {{> tournament_menu }}
   This Page displays the tournament info!!
 </template>

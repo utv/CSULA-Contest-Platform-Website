@@ -6,18 +6,10 @@ if (Meteor.isClient) {
       return Games.find({}, {sort: { name: 1}});
     },
     tournaments: function () {
-      return Tournaments.find({}, {sort: {name: 1}});
+      return Tournaments.find({archived:"no"}, {sort: {createdAt: -1}});
     },
     isAdmin: function () {
       return Meteor.user().username === 'admin';
-    }
-  });
-
-  Template.appBody.events({
-    'click #main-menu .item' : function(event) {
-      Template.instance().$('.item').removeClass('active');
-      var clickedElement = event.target;
-      Template.instance().$(clickedElement).addClass('active');
     }
   });
 
@@ -36,9 +28,13 @@ if (Meteor.isClient) {
         game: $game.val(),
         salt: '',
         hash: '',
+        status: 'stop',
         users: [],
-        createdAt: new Date()
+        createdAt: new Date(),
+        archived: 'no'
       });
+
+      $tournamentName.val('');
     }
   });
 
@@ -46,38 +42,6 @@ if (Meteor.isClient) {
     passwordSignupFields: "USERNAME_ONLY"
   });
 
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // Load organizations
-    var orgList = {};
-    orgList = JSON.parse(Assets.getText("orgList.json"));
-    
-    if ( Organizations.find({}).count() == 0) {
-      // no games, add some!
-      for (var i = 0; i < orgList.length; i++) {
-        Organizations.insert({
-          name: orgList[i],
-          createdAt: new Date()
-        });
-      }
-    }
-
-    /*var gameList = {};
-    gameList = JSON.parse(Assets.getText("gameList.json"));
-    
-    if ( Games.find({}).count() == 0) {
-      // no games, add some!
-      for (var i = 0; i < gameList.length; i++) {
-        Games.insert({
-          name: gameList[i],
-          createdAt: new Date()
-        });
-      }
-    }*/
-
-  });
 }
 
 Router.route('/tournaments', {

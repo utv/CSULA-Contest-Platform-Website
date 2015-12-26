@@ -1,6 +1,6 @@
 if (Meteor.isServer) {
   Meteor.publish('tournaments', function(limit){
-    return Tournaments.find({}, {limit: limit || 100});
+    return Tournaments.find({}, {limit: limit || 1000});
     // return Tournaments.find();
   });
 

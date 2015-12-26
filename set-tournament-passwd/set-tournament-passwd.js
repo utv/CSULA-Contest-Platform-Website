@@ -1,38 +1,53 @@
+function initSession () {
+  Session.set('passwordSaved', false);
+  Session.set('passwordNotMatched', false);
+  Session.set('passwordTooShort', false);
+}
 
 if (Meteor.isClient) {
   
   Template.set_tournament_passwd.events({
-    'click .button' : function(event) {
+    'submit .passwd_form' : function(event) {
       event.preventDefault();
+      initSession();
+      
       var clickedElement = event.target;
       var password = $('input[name=password]').val();
       var repassword = $('input[name=repassword]').val();
-      var MIN_LEN_PASS = 6;
+      var MIN_LEN_PASS = 3;
 
       if (password !== repassword ) { 
-        $('[id=response]').text("These passwords don't match");
+        Session.set('passwordNotMatched', true);
+        return;
       }
       if (password === repassword && password.length < MIN_LEN_PASS) {
-        $('[id=response]').text("Password is too short, at least 8 characters.");
+        Session.set('passwordTooShort', true);
+        return;
       }
       if (password === repassword ) {
-        console.log(clickedElement);
-        console.log(repassword);
-        
         Meteor.call('saveTournamentPassword', this._id, $('input[name=repassword]').val(), function(err,response) {
           if(err) {
             console.log('serverDataResponse', "Error:" + err.reason);
             return;
           }
           
-          console.log('password saved!');
-          console.log('response = ', response);
-          
-          $('[id=response]').text("Password has been set!");
-          $('.field').hide();
-          $('.button').hide();
+          Session.set('passwordSaved', true);
         });
       } 
+    }
+  });
+
+  Template.set_tournament_passwd.helpers({
+    isPasswordSaved: function () {
+      return Session.get('passwordSaved');
+    },
+
+    isPasswordsNotMatched: function () {
+      return Session.get('passwordNotMatched');
+    },
+
+    isPasswordTooShort: function () {
+      return Session.get('passwordTooShort');
     }
   });
 }
@@ -61,7 +76,7 @@ Router.route('set_tournament_passwd', {
   layoutTemplate: 'appBody',
   template: 'set_tournament_passwd',
   onBeforeAction: function () {
-    Session.set('passwordSaved', false);
+    initSession();
     if (!Meteor.user()) {
       // Router.go('login');
       return;

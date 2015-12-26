@@ -19,10 +19,11 @@
   <table class="ui celled table">
     <thead>
       <tr>
+        <th>Tournament Name</th>
         {{#if isAdmin}}
-          <th>Set password for tournament</th>
-          {{else}}
-          <th>Tournament Name</th>
+          <th>Run</th>
+          <th>Password</th>
+          <th>Archived</th>
         {{/if}}
         <th>Game</th>
         <th>Number of Players</th>
@@ -30,11 +31,7 @@
     </thead>
     <tbody>
       {{#each tournaments}}
-        <tr>
-          <td><a href="{{ pathFor 'show_tournament' }}">{{name}}</a></td>
-          <td>{{game}}</td>
-          <td>{{users.length}}</td>
-        </tr>
+        {{> a_tournament}}
       {{/each}}
     </tbody>
   </table>

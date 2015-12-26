@@ -1,10 +1,7 @@
 if (Meteor.isClient) {
-  Template.join_tournament.rendered = function () {
-    $('h2').hide(); // hide error massage
-  }
-    
+  
   Template.join_tournament.events({
-    'click .button': function (event) {
+    'submit .join_form': function (event) {
       event.preventDefault();
       var password = $('input[name=password]').val();
       var tournament = Tournaments.findOne(this._id);
@@ -18,7 +15,16 @@ if (Meteor.isClient) {
 
         Router.go('/tournament/' + this._id);
       } 
-      else $('h2').show();
+      else {
+        Session.set('tournamentPasswordNotCorrect', true);
+        return;
+      }
+    }
+  });
+
+  Template.join_tournament.helpers({
+    isTournamentPasswordNotCorrect: function () {
+      return Session.get('tournamentPasswordNotCorrect');
     }
   });
 }
@@ -28,10 +34,16 @@ Router.route('join_tournament', {
   layoutTemplate: 'appBody',
   template: 'join_tournament',
   onBeforeAction: function () {
+    Session.set('tournamentPasswordNotCorrect', false);
     if (!Meteor.user()) {
       // Router.go('login');
       return;
     }
+
+    if (Meteor.user().username === 'admin') {
+      Router.go('/tournaments/'); 
+    }
+
     this.next();
   },
   waitOn:function(){

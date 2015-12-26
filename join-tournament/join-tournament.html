@@ -1,10 +1,17 @@
 <template name="join_tournament">
-  <p>Please enter password to join {{name}} tournament.</p>
-  <form class="ui form">
-    <div class="field">
-      <input type="password" name="password">
-    </div>
-    <button class="ui button" type="submit">Submit</button>
-    <h2>Password is not correct, please try again.</h2>
+  <form class="join_form">
+    <table class="table_form">
+      <tr>
+        <td align="left">Password for {{name}}</td>
+        <td align="right"><input type="password" name="password"></td>
+      </tr>
+      <tr>
+        <td align="left"><button type="submit">Submit</button></td>
+      </tr>
+    </table>
   </form>
+  {{#if isTournamentPasswordNotCorrect}}
+    <p class="error_msg">Password is not correct, please try again.</p>
+  {{/if}}
+  
 </template>

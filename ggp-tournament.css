@@ -3,3 +3,16 @@
 div.display-content {
    margin: 2% 5%;
 }
+
+table.table_form {
+    border-collapse: separate; 
+    border-spacing: 10px;
+}
+
+.success_msg {
+    color:green;
+}
+
+.error_msg {
+    color:red;
+}

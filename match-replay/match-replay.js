@@ -18,6 +18,12 @@ if (Meteor.isClient) {
       if (Session.get('index') > 0) {
         Session.set('index', Session.get('index') - 1);
       }
+    },
+    'click #first': function(event) {
+      Session.set('index', 0);
+    },
+    'click #last': function(event) {
+      Session.set('index', Session.get('replayLen') - 1);
     }
     
   });
