@@ -1,0 +1,24 @@
+<template name="a_tournament">
+  <tr>
+    <td><a href="{{ pathFor 'show_tournament' }}">{{name}}</a></td>
+    {{#if isAdmin}}
+      <td>
+        {{#if isRunning status}}
+          <a href="#" id="stop">x Stop</a>
+          {{else}}
+          <a href="#" id="start">> Start</a>
+        {{/if}}
+      </td>
+      <td><a href="{{ pathFor 'set_tournament_passwd' }}">Set</a></td>
+      <td>
+        {{#if isRunning status}}
+          {{else}}
+          <a href="#" id="archived">Go</a>
+        {{/if}}
+      </td>
+        
+    {{/if}}
+    <td>{{game}}</td>
+    <td>{{users.length}}</td>
+  </tr>
+</template>
