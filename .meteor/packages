@@ -12,7 +12,6 @@ semantic:ui-css
 iron:router
 jparker:crypto-sha256
 random
-insecure
 standard-minifiers
 meteor-base
 mobile-experience

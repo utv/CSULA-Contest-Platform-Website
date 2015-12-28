@@ -10,6 +10,9 @@ if (Meteor.isClient) {
     },
     isAdmin: function () {
       return Meteor.user().username === 'admin';
+    },
+    tournamentBlank: function () {
+      return Session.get('tournamentBlank');
     }
   });
 
@@ -19,21 +22,13 @@ if (Meteor.isClient) {
 
       var $tournamentName = $(event.target).find('[type=text]');
       var $game = Template.instance().$('select[id=game-picker]');
-      if (! $tournamentName.val())
+      if (! $tournamentName.val()) {
+        Session.set('tournamentBlank', true);
         return;
+      }
       
-      console.log($tournamentName.val() + ", " + $game.val());
-      Tournaments.insert({
-        name: $tournamentName.val(),
-        game: $game.val(),
-        salt: '',
-        hash: '',
-        status: 'stop',
-        users: [],
-        createdAt: new Date(),
-        archived: 'no'
-      });
-
+      Meteor.call("addTournament", $tournamentName.val(), $game.val());
+      Session.set('tournamentBlank', false);
       $tournamentName.val('');
     }
   });
@@ -43,6 +38,26 @@ if (Meteor.isClient) {
   });
 
 }
+
+Meteor.methods({
+  addTournament: function (tournamentName, game) {
+    // Make sure the user is logged in before inserting a task
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    Tournaments.insert({
+      name: tournamentName,
+      game: game,
+      salt: '',
+      hash: '',
+      status: 'stop',
+      users: [],
+      createdAt: new Date(),
+      archived: 'no'
+    });
+  }
+});
 
 Router.route('/tournaments', {
   layoutTemplate: 'appBody',

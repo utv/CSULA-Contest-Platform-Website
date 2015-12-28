@@ -13,6 +13,11 @@
         <label>Name: </label>
         <input placeholder="Tournament" type="text">  
       </p>
+      <p>
+        {{#if tournamentBlank}}
+          <p class="error_msg">Tournament name can't be blank.</p>
+        {{/if}}
+      </p>
     </form>
   {{/if}}
   

@@ -62,10 +62,6 @@ if (Meteor.isServer) {
       // body...
       var genSalt = Random.id();
       var genHash = CryptoJS.SHA256(genSalt + password).toString();
-      console.log('tourId = ', tourId);
-      console.log('salt = ', genSalt);
-      console.log('hash = ', genHash);
-      
       return Tournaments.update(tourId, {$set: {salt: genSalt, hash: genHash}});
     }
   });

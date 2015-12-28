@@ -8,11 +8,7 @@ if (Meteor.isClient) {
       var userPassword = CryptoJS.SHA256(tournament.salt + password).toString();
       
       if (userPassword === tournament.hash) {
-        Tournaments.update(
-          { _id: this._id }, 
-          { $push: {users: {username: Meteor.user().username}} }
-        );
-
+        Meteor.call("addUserToTournament");
         Router.go('/tournament/' + this._id);
       } 
       else {
@@ -28,6 +24,19 @@ if (Meteor.isClient) {
     }
   });
 }
+
+Meteor.methods({
+  addUserToTournament: function () {
+    if (! Meteor.userId()) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    Tournaments.update(
+      { _id: this._id }, 
+      { $push: {users: {username: Meteor.user().username}} }
+    );
+  }
+});
 
 Router.route('join_tournament', {
   path: '/join/:_id',
