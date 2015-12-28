@@ -84,7 +84,7 @@ Router.route('upload_player', {
       });
 
       if (!isJoined) Router.go('/join/' + this.params._id); 
-      else this.next();  
+      else this.next();
     }
   },
   waitOn:function(){

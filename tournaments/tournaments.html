@@ -1,23 +1,32 @@
 <template name="tournaments">
   {{#if isAdmin}}
     <form class="js-new-tournament">
-      <p>
-        <label>Select game: </label>
-        <select id="game-picker"> 
-          {{#each games}}
-            <option value="{{name}}">{{name}}</option>
-          {{/each}}
-        </select>
-      </p>
-      <p>
-        <label>Name: </label>
-        <input placeholder="Tournament" type="text">  
-      </p>
-      <p>
-        {{#if tournamentBlank}}
-          <p class="error_msg">Tournament name can't be blank.</p>
-        {{/if}}
-      </p>
+      <table class="table_form">
+        <tr>
+          <td align="left">
+            <label>Select game: </label>
+          </td>
+          <td align="right">
+            <select id="game-picker"> 
+              {{#each games}}
+                <option value="{{name}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td align="left">
+            <label>Name: </label>
+          </td>
+          <td align="left">
+            <input placeholder="Tournament" type="text">
+          </td>
+        </tr>
+      </table>
+      
+      {{#if tournamentBlank}}
+        <p class="error_msg">Please enter tournament name.</p>
+      {{/if}}
     </form>
   {{/if}}
   
