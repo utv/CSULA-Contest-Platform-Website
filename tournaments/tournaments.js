@@ -20,16 +20,17 @@ if (Meteor.isClient) {
     'submit .js-new-tournament': function(event) {
       event.preventDefault();
 
-      var $tournamentName = $(event.target).find('[type=text]');
+      var $tournamentText = $(event.target).find('[type=text]');
+      var $tournamentName = $tournamentText.val().trim();
       var $game = Template.instance().$('select[id=game-picker]');
-      if (! $tournamentName.val()) {
+      if (! $tournamentName) {
         Session.set('tournamentBlank', true);
         return;
       }
       
-      Meteor.call("addTournament", $tournamentName.val(), $game.val());
+      Meteor.call("addTournament", $tournamentName, $game.val());
       Session.set('tournamentBlank', false);
-      $tournamentName.val('');
+      $tournamentText.val('');
     }
   });
 
@@ -46,11 +47,15 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
 
+    var genSalt = Random.id();
+    var password = '';
+    var genHash = CryptoJS.SHA256(genSalt + password).toString();
+
     Tournaments.insert({
       name: tournamentName,
       game: game,
-      salt: '',
-      hash: '',
+      salt: genSalt,
+      hash: genHash,
       status: 'stop',
       users: [],
       createdAt: new Date(),

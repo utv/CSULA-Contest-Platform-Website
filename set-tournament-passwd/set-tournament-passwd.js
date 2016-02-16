@@ -54,9 +54,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.methods({
-    genHash: function() {
-      return 'genHash'
-    },
 
     saveTournamentPassword: function (tourId, password) {
       // body...
