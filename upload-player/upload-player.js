@@ -16,6 +16,22 @@ if (Meteor.isClient) {
                 tournament: this.name,
               },
               { sort: {createdAt: -1} }).status === "fail";
+    },
+    isUploaded: function () {
+      return Players.findOne(
+              { 
+                username: Meteor.user().username, 
+                tournament: this.name,
+              },
+              { sort: {createdAt: -1} }).status === "uploaded";
+    },
+    isCompiled: function () {
+      return Players.findOne(
+              { 
+                username: Meteor.user().username, 
+                tournament: this.name,
+              },
+              { sort: {createdAt: -1} }).status === "compiled";
     }
   });
 }

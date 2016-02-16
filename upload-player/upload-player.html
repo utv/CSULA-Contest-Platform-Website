@@ -7,9 +7,21 @@
   </p>
 
   {{> upload_semanticUI formData=specificFormData }}
-  {{#if isLastPlayerFail}}
-    <p style="color:red">
-    Your last uploaded player is fail to compile, we will use the previous one.
+  {{#if isCompiled}}
+    <p style="color:green">
+    Status: Ready.
     </p>
+  {{else}}
+    {{#if isLastPlayerFail}}
+      <p style="color:red">
+    Status: Failed.
+    </p>
+    {{else}}
+      {{#if isUploaded}}
+        <p style="color:blue">
+      Status: Unzipping and compiling.
+      </p>
+      {{/if}}
+    {{/if}}
   {{/if}}
 </template>
