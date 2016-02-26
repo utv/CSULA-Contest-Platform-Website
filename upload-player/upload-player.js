@@ -104,8 +104,11 @@ Router.route('upload_player', {
     }
   },
   waitOn:function(){
-    return [  Meteor.subscribe('tournaments'), 
-              Meteor.subscribe('players') ];
+    return Meteor.subscribe('playersTournament', 
+            Meteor.user().username, 
+            this.params._id);
+    // return [  Meteor.subscribe('tournaments'), 
+    //           Meteor.subscribe('players') ];
   },
   action : function () {
     this.render();

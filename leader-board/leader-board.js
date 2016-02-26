@@ -12,9 +12,11 @@ if (Meteor.isClient) {
     ranks: function () {
       var theRanks = Matches.findOne({tournament_id: this._id}, {sort: {createdAt: -1}}).ranks;
       var sortedRanks = _.sortBy(theRanks, function(rank) { return rank.rank; });
+      return _.map(sortedRanks, function(rank) { rank.rating = rank.rating.toFixed(2); return rank; });
+      
       //return sortedRanks;
-      return _.map(sortedRanks, function(rank) { rank.rating = rank.rating.toFixed(2); 
-                                              return rank; });
+      // return theRanks;
+      
     }
   });
 }

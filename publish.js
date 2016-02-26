@@ -15,6 +15,14 @@ if (Meteor.isServer) {
     return Players.find();
   });
 
+  Meteor.publish('playersTournament', function(username, tourid){
+    return [
+      Players.find( {username: username} ),
+      Tournaments.find(tourid)
+    ];
+    
+  });
+
   Meteor.publish('matches', function(matchid){
     if (matchid === undefined || matchid === null)
       return null;
