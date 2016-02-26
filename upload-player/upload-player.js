@@ -111,6 +111,7 @@ Router.route('upload_player', {
     this.render();
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id}, {sort: {createdAt: -1}});
+    return Tournaments.findOne({_id: this.params._id});
+    // return Tournaments.findOne({_id: this.params._id}, {sort: {createdAt: -1}});    
   }
 });

@@ -23,12 +23,13 @@
     }
   },
   waitOn:function(){
-    return [ Meteor.subscribe('tournaments') ];
+    return [ Meteor.subscribe('tournamentsByTourid', this.params._id) ];
+    
   },
   action : function () {
     this.render();
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id}, {sort: {createdAt: -1}});
+    return Tournaments.findOne({_id: this.params._id});
   }
 });

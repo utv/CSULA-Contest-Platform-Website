@@ -16,17 +16,26 @@ if (Meteor.isClient) {
         return true;
       return false;
     },
+
     latest_matches: function () {
+      return Matches.find({ tournament_id: this._id }, 
+                          { sort: {_id: -1}, 
+                            limit: Session.get('number_of_match') 
+                          });
+    }
+
+    /*latest_matches: function () {
       return Matches.find({ tournament_id: this._id }, 
                           { sort: {createdAt: -1}, 
                             limit: Session.get('number_of_match') 
                           });
-    }
+    }*/
   });
 }
 
 Router.route('matches', {
-  path: '/matches/:_id',
+  // path: '/matches/:_id',
+  path: '/matches/:_tourid',
   layoutTemplate: 'appBody',
   template: 'matches',
   onBeforeAction: function () {
@@ -37,13 +46,12 @@ Router.route('matches', {
     this.next();
   },
   waitOn:function(){
-    return [  Meteor.subscribe('tournaments'), 
-              Meteor.subscribe('matches', this.params._id) ];
+    return Meteor.subscribe('tournamentAndMatchesByTourid', this.params._tourid);
   },
   action : function () {
     this.render();
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id}, {sort: {createdAt: -1}});
+    return Tournaments.findOne(this.params._tourid);
   }
 });
