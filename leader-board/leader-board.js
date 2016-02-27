@@ -8,15 +8,12 @@ if (Meteor.isClient) {
         return true;
       return false;
     },
-    // Ranks from are unordered, this function sorts them.
+    
     ranks: function () {
-      var theRanks = Matches.findOne({tournament_id: this._id}, {sort: {createdAt: -1}}).ranks;
-      var sortedRanks = _.sortBy(theRanks, function(rank) { return rank.rank; });
-      return _.map(sortedRanks, function(rank) { rank.rating = rank.rating.toFixed(2); return rank; });
-      
-      //return sortedRanks;
-      // return theRanks;
-      
+      // Rankings is already sorted by the server
+      var theMatch = Matches.findOne(this.lastMatchId);
+      _.map(theMatch.ranks, function(rank) { rank.rating = rank.rating.toFixed(2); return rank; });
+      return theMatch.ranks;
     }
   });
 }
@@ -33,8 +30,6 @@ Router.route('leader_board', {
     this.next();
   },
   waitOn:function(){
-    // return [  Meteor.subscribe('tournaments'),
-    //           Meteor.subscribe('matches', this.params._id) ];
     return Meteor.subscribe('RanksByTourid', this.params._id);
   },
   action : function () {

@@ -53,7 +53,8 @@ if (Meteor.isServer) {
     * because not in used in this page and huge loading time.
     */
     return [
-      Matches.find({tournament_id: tourid}, {fields: {ranks:0, replay:0}}),
+      Matches.find(
+        {tournament_id: tourid}, {fields: {ranks:0, replay:0}}),
       Tournaments.find(tourid)
     ];
   });

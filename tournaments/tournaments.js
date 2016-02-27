@@ -13,6 +13,9 @@ if (Meteor.isClient) {
     },
     tournamentBlank: function () {
       return Session.get('tournamentBlank');
+    },
+    tournamentExisted: function () {
+      return Session.get('tournamentExisted');
     }
   });
 
@@ -22,15 +25,33 @@ if (Meteor.isClient) {
 
       var $tournamentText = $(event.target).find('[type=text]');
       var $tournamentName = $tournamentText.val().trim();
-      var $game = Template.instance().$('select[id=game-picker]');
+      var $game = Template.instance().$('select[id=game-picker]').val();
+      // $game = "id,name"  need to split!
+      var gameArr = $game.split(",");
+      var gameid = gameArr[0];
+      var gameName = gameArr[1];
+
       if (! $tournamentName) {
+        Session.set('tournamentExisted', false);
         Session.set('tournamentBlank', true);
         return;
       }
-      
-      Meteor.call("addTournament", $tournamentName, $game.val());
-      Session.set('tournamentBlank', false);
-      $tournamentText.val('');
+
+      Meteor.call("addTournament", $tournamentName, gameid, gameName, function(error, result) {
+        if (error) {
+          console.log('Error adding new tournament!');
+        } else {
+          if (result) {
+            Session.set('tournamentBlank', false);
+            Session.set('tournamentExisted', false);
+            $tournamentText.val('');
+          } else {
+            // already existed
+          Session.set('tournamentExisted', true);
+          Session.set('tournamentBlank', false);
+          }
+        }
+      });
     }
   });
 
@@ -41,7 +62,7 @@ if (Meteor.isClient) {
 }
 
 Meteor.methods({
-  addTournament: function (tournamentName, game) {
+  addTournament: function (tournamentName, theGameid, theGameName) {
     // Make sure the user is logged in before inserting a task
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
@@ -51,16 +72,23 @@ Meteor.methods({
     var password = '';
     var genHash = CryptoJS.SHA256(genSalt + password).toString();
 
-    Tournaments.insert({
-      name: tournamentName,
-      game: game,
-      salt: genSalt,
-      hash: genHash,
-      status: 'stop',
-      users: [],
-      createdAt: new Date(),
-      archived: 'no'
-    });
+    var tourUsingThisName = Tournaments.find({name: tournamentName}, {limit: 1}).count();
+    if (tourUsingThisName == 0) {
+      Tournaments.insert({
+        name: tournamentName,
+        game: theGameName,
+        gameid: theGameid,
+        salt: genSalt,
+        hash: genHash,
+        status: 'stop',
+        users: [],
+        createdAt: new Date(),
+        archived: 'no'
+      });
+
+      return true;
+    } else return false;
+
   }
 });
 
@@ -72,6 +100,8 @@ Router.route('/tournaments', {
       // Router.go('login');
       return;
     }
+    Session.set('tournamentExisted', false);
+    Session.set('tournamentBlank', false);
     this.next();
   },
   waitOn:function(){

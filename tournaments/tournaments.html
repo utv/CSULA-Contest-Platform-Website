@@ -9,7 +9,8 @@
           <td align="right">
             <select id="game-picker"> 
               {{#each games}}
-                <option value="{{name}}">{{name}}</option>
+                <option value="{{_id._str}},{{name}}">{{name}}</option>
+                <!-- <option value="{{name}}">{{name}}</option> -->
               {{/each}}
             </select>
           </td>
@@ -23,7 +24,10 @@
           </td>
         </tr>
       </table>
-      
+      {{#if tournamentExisted}}
+        <p class="error_msg">This name is already existed.</p>
+      {{/if}}
+
       {{#if tournamentBlank}}
         <p class="error_msg">Please enter tournament name.</p>
       {{/if}}
@@ -37,7 +41,7 @@
         {{#if isAdmin}}
           <th>Run</th>
           <th>Password</th>
-          <th>Archived</th>
+          <th>To archive</th>
         {{/if}}
         <th>Game</th>
         <th>Number of Players</th>

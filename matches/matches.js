@@ -43,6 +43,7 @@ Router.route('matches', {
       // Router.go('login');
       return;
     }
+    Session.set('number_of_match', 10);
     this.next();
   },
   waitOn:function(){

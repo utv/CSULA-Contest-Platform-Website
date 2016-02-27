@@ -5,6 +5,7 @@ if (Meteor.isClient) {
     specificFormData: function() {
       return { 
                 tournament: this.name,
+                tourid: this._id,
                 owner: Meteor.userId(),
                 username: Meteor.user().username
               }
@@ -65,6 +66,7 @@ if (Meteor.isServer) {
         if (formData && formData.tournament != null) {
           Players.insert({
             username: formData.username,
+            tournament_id: formData.tourid,
             tournament: formData.tournament,
             pathToZip: fileInfo.name,
             pathToClasses: "",
