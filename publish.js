@@ -35,12 +35,13 @@ if (Meteor.isServer) {
     return Matches.find({tournament_id: tourid});
   });
 
-  Meteor.publish('RanksByTourid', function(tourid){
+  Meteor.publish('RanksByTourid', function(tourid, matchid){
     if (tourid === undefined || tourid === null)
       return Matches.find();
     // Replays are not loaded.
     return [
-      Matches.find({tournament_id: tourid}, {fields: {replay:0}}),
+      // Matches.find({tournament_id: tourid}, {fields: {replay:0}}, {limit: 1}),
+      Matches.find( {_id: new Meteor.Collection.ObjectID(matchid)}, {fields: {replay:0}}),
       Tournaments.find(tourid)
     ];
   });
