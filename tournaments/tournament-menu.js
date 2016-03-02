@@ -1,6 +1,15 @@
+if (Meteor.isClient) {
+
+  Template.tournament_menu.helpers({
+    noMatch: function() {
+      return this.leaderBoardId === 'nomatch';
+    }
+  });
+}
+
 
   Router.route('tournament_menu', {
-  path: '/tournament_menu/:_id/:_matchid',
+  path: '/tournament_menu/:_id',
   layoutTemplate: 'appBody',
   template: 'tournament_menu',
   onBeforeAction: function () {
@@ -29,11 +38,7 @@
   action : function () {
     this.render();
   },
-  /*data: function() {
-    return { 
-      thisTournament: Tournaments.findOne({_id: this.params._id})
-    };
-  }*/
+  
   data: function () {
     return Tournaments.findOne({_id: this.params._id});
   }

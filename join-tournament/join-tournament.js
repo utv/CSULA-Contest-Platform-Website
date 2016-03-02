@@ -9,7 +9,8 @@ if (Meteor.isClient) {
       
       if (userPassword === tournament.hash) {
         Meteor.call("addUserToTournament", this._id, Meteor.user().username);
-        Router.go('/tournament/' + this._id);
+        Router.go('show_tournament', {_id: this._id});
+        return;
       } 
       else {
         Session.set('tournamentPasswordNotCorrect', true);

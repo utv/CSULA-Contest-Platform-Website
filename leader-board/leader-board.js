@@ -3,23 +3,23 @@ if (Meteor.isClient) {
 
   Template.leader_board.helpers({
     isThereMatchPlayed: function () {
-      // var match = Matches.findOne({tournament_id: this._id}, {sort: {createdAt: -1}});
-      var match = this.thisMatch;
-      if (match !== undefined) 
+      if (this.thisLeaderBoard.ranks !== undefined) 
         return true;
       return false;
     },
-    
+
     ranks: function () {
       // Rankings is already sorted by the server
-      _.map(this.thisMatch.ranks, function(rank) { rank.rating = rank.rating.toFixed(2); return rank; });
-      return this.thisMatch.ranks;
+      _.map(this.thisLeaderBoard.ranks, function(rank) { rank.rating = rank.rating.toFixed(2); return rank; });
+      return this.thisLeaderBoard.ranks;      
+
     }
   });
 }
 
 Router.route('leader_board', {
-  path: '/leader_board/:_id/:_matchid',
+  path: '/leader_board/:_id/:_leaderBoardId',
+  name: 'leader_board',
   layoutTemplate: 'appBody',
   template: 'leader_board',
   onBeforeAction: function () {
@@ -27,18 +27,26 @@ Router.route('leader_board', {
       // Router.go('login');
       return;
     }
+    
     this.next();
   },
   waitOn:function(){
-    return Meteor.subscribe('RanksByTourid', this.params._id, this.params._matchid);
+    return Meteor.subscribe('leaderBoardLargeUsersById', this.params._id, this.params._leaderBoardId);
+    
   },
   action : function () {
     this.render();
   },
   data: function () {
+    if (this.params._leaderBoardId === 'nomatch')
+      return {
+        thisTournament: Tournaments.findOne(this.params._id)
+      };
+
+    // Large number of users
     return {
-      thisMatch: Matches.findOne(new Meteor.Collection.ObjectID(this.params._matchid)),
-      thisTournament: Tournaments.findOne({_id: this.params._id})
+      thisLeaderBoard: LeaderBoards.findOne(new Meteor.Collection.ObjectID(this.params._leaderBoardId)),
+      thisTournament: Tournaments.findOne(this.params._id)
     };
   }
 

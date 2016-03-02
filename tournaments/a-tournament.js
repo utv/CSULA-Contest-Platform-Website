@@ -7,6 +7,9 @@ if (Meteor.isClient) {
     },
     isRunning: function (status) {
       return status === 'running';
+    },
+    noMatch: function() {
+      return this.lastMatchId == 'nomatch';
     }
   });
 

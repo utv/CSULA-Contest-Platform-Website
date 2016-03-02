@@ -1,6 +1,13 @@
 <template name="a_tournament">
   <tr>
-    <td><a href="{{ pathFor 'show_tournament' _matchid=this.lastMatchId._str }}">{{name}}</a></td>
+    <!-- {{#if noMatch}}
+      <td><a href="{{ pathFor 'show_tournament' _matchid='nomatch' }}">{{name}}</a></td>
+    {{else}}
+      <td><a href="{{ pathFor 'show_tournament' _matchid=this.lastMatchId._str }}">{{name}}</a></td>
+    {{/if}} -->
+
+    <td><a href="{{ pathFor 'show_tournament'  }}">{{name}}</a></td>
+
     {{#if isAdmin}}
       <td>
         {{#if isRunning status}}

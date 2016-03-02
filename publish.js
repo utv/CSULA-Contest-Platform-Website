@@ -35,12 +35,42 @@ if (Meteor.isServer) {
     return Matches.find({tournament_id: tourid});
   });
 
-  Meteor.publish('RanksByTourid', function(tourid, matchid){
+  Meteor.publish('leaderBoard', function(tourid, matchid){
+    if (tourid === undefined || tourid === null)
+      return Matches.find();
+    
+    // No match played yet
+    if (matchid === 'nomatch') {
+      return Tournaments.find(tourid);
+    }
+
+    // Replays are not loaded.
+    return [
+      Tournaments.find(tourid),
+      // Matches.find( {tournament_id: tourid })
+      Matches.find( {tournament_id: tourid }, {fields: {replay:0}}, {sort: {_id: -1}}, {limit: 1})
+      // Matches.find( {_id: new Meteor.Collection.ObjectID(matchid)}, {fields: {replay:0}})
+      
+    ];
+  });
+
+  Meteor.publish('leaderBoardLargeUsersById', function(tourid, leaderboard_id){
+    if (leaderboard_id === 'nomatch')
+      return Tournaments.find(tourid);
+    // Replays are not loaded.
+    return [
+      // Matches.find({tournament_id: tourid}, {fields: {replay:0}}, {limit: 1}, {sort: {_id: -1}}),
+      Tournaments.find(tourid),
+      LeaderBoards.find(new Meteor.Collection.ObjectID(leaderboard_id))
+    ];
+  });
+
+  Meteor.publish('leaderBoardLargeUsers', function(tourid, matchid){
     if (tourid === undefined || tourid === null)
       return Matches.find();
     // Replays are not loaded.
     return [
-      // Matches.find({tournament_id: tourid}, {fields: {replay:0}}, {limit: 1}),
+      // Matches.find({tournament_id: tourid}, {fields: {replay:0}}, {limit: 1}, {sort: {_id: -1}}),
       Matches.find( {_id: new Meteor.Collection.ObjectID(matchid)}, {fields: {replay:0}}),
       Tournaments.find(tourid)
     ];

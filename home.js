@@ -18,6 +18,8 @@ Router.route('/', function () {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+    Matches._ensureIndex({ "tournament_id": -1});
+    Matches._ensureIndex({ "tournament_id": -1, "createdAt": -1});
     /*var gameList = {};
     gameList = JSON.parse(Assets.getText("gameList.json"));
     

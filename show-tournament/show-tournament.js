@@ -6,6 +6,7 @@ if (Meteor.isClient) {
 
 Router.route('show_tournament', {
   path: '/tournament/:_id',
+  name: 'show_tournament',
   layoutTemplate: 'appBody',
   template: 'show_tournament',
   onBeforeAction: function () {
@@ -29,10 +30,12 @@ Router.route('show_tournament', {
   },
   waitOn:function(){
     return [ Meteor.subscribe('tournaments') ];
+    
   },
   action: function() {
     this.render();
   },
+  
   data: function () {
     return Tournaments.findOne({_id: this.params._id});
   }

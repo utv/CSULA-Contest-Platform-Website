@@ -83,6 +83,8 @@ Meteor.methods({
         status: 'stop',
         users: [],
         createdAt: new Date(),
+        lastMatchId: 'nomatch',
+        leaderBoardId: 'nomatch',
         archived: 'no'
       });
 

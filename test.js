@@ -11,16 +11,16 @@ if (Meteor.isServer) {
     var ttt_tour = "ttt_for_users";
     var hex_tour = "hexx_5000";
     
-    var theTour = hex_tour;
-    var theGameName = hex;
+    var theTour = "ttt-100-users";
+    var theGameName = tictactoe;
     var theGameid = Games.findOne({name: theGameName})._id._str;
     var randomPlayerPath = "/Users/Amata/.ggp-server/compiled/myRandomPlayer-Thu Dec 03 2015 16:33:15 GMT-0800 (PST)";
 
-    // var theUsers = getUsers(1, 5000);
+    // var theUsers = getUsers(1, 100);
     // createTournament(theTour, theGameName, theGameid, theUsers);
-    // createPlayers(theTour, randomPlayerPath, theUsers);
-    // console.log("number of players in " + theTour + " is " + 
-    //   Players.find({tournament: theTour, status: "compiled"}).count());
+    // uploadPlayers(theTour, randomPlayerPath, theUsers);
+    console.log("number of players in " + theTour + " is " + 
+      Players.find({tournament: theTour, status: "compiled"}).count());
   });
   
   function getUsers(from, to) {
@@ -53,7 +53,7 @@ if (Meteor.isServer) {
     return users;
   }
 
-  function createPlayers (tour, classPath, theUsers) {
+  function uploadPlayers (tour, classPath, theUsers) {
     var users = [];
     var eachUser = '';
     var createDate = new Date();
@@ -93,6 +93,8 @@ if (Meteor.isServer) {
       status: 'stop',
       users: theUsers,
       createdAt: new Date(),
+      lastMatchId: 'nomatch',
+      leaderBoardId: 'nomatch',
       archived: 'no'
     });
   }
