@@ -3,7 +3,11 @@
   <h4>{{thisTournament.name}}</h4>
   <ul>
     <li><a href="{{ pathFor 'show_tournament' _id=thisTournament._id }}">Info</a></li>
-    <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId=thisTournament.leaderBoardId._str }}">Leader Board</a></li>
+    {{#if isThereMatchPlayed}}
+      <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId=thisTournament.leaderBoardId._str }}">Leader Board</a></li>
+    {{else}}
+      <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId='nomatch' }}">Leader Board</a></li>
+    {{/if}}
     <li><a href="{{ pathFor 'upload_player' _id=thisTournament._id }}">Upload Player</a></li>
     <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id }}">All Matches</a></li>
   </ul>

@@ -34,8 +34,8 @@ if (Meteor.isClient) {
       return this.replay[Session.get('index')];
     },
 
-    testState: function() {
-      return "Hello, test testState";
+    matchResult: function() {
+      return this.result;
     }
 
   });

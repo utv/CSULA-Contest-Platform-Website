@@ -8,15 +8,16 @@ if (Meteor.isServer) {
     console.log("Before creating new users, Number of users = " + Meteor.users.find().count());  
     var tictactoe = "Tic-Tac-Toe";
     var hex = "Hex";
+    var bidding_tictactoe = "Bidding Tic-Tac-Toe";
     var ttt_tour = "ttt_for_users";
     var hex_tour = "hexx_5000";
     
-    var theTour = "ttt-100-users";
-    var theGameName = tictactoe;
+    var theTour = "bttt-2";
+    var theGameName = bidding_tictactoe;
     var theGameid = Games.findOne({name: theGameName})._id._str;
     var randomPlayerPath = "/Users/Amata/.ggp-server/compiled/myRandomPlayer-Thu Dec 03 2015 16:33:15 GMT-0800 (PST)";
 
-    // var theUsers = getUsers(1, 100);
+    // var theUsers = getUsers(1, 2);
     // createTournament(theTour, theGameName, theGameid, theUsers);
     // uploadPlayers(theTour, randomPlayerPath, theUsers);
     console.log("number of players in " + theTour + " is " + 

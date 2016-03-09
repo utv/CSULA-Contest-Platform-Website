@@ -4,11 +4,13 @@
     <button id="prev">Prev</button>
     <button id="next">Next</button>
     <button id="last">Last</button>
-  {{{replayState}}}
-  <!-- {{testState}} -->
-  </div>
 
-  <!-- {{#each replayList}}
-    <div>{{{this}}}</div>
-  {{/each}} -->
+    <div>
+      {{#each matchResult}}
+        <label style="margin-left:2em; font-size:20px">{{username}} : {{role}}</label>
+      {{/each}}
+    </div>
+
+  {{{replayState}}}
+  </div>
 </template>
