@@ -17,8 +17,22 @@ if (Meteor.isClient) {
       return false;
     },
 
+    isShowMyMatch: function() {
+      return  Session.get('isShowMyMatch');
+    },
+
     latest_matches: function () {
       return Matches.find({ tournament_id: this._id }, 
+                          { sort: {_id: -1}, 
+                            limit: Session.get('number_of_match') 
+                          });
+    },
+
+    my_latest_matches: function () {
+      return Matches.find({ tournament_id: this._id, 
+                            result: { "$elemMatch" : { "username" : Meteor.user().username} } 
+                           }, 
+
                           { sort: {_id: -1}, 
                             limit: Session.get('number_of_match') 
                           });
@@ -44,6 +58,7 @@ Router.route('matches', {
       return;
     }
     Session.set('number_of_match', 10);
+    Session.set('isShowMyMatch', this.params.query.q === 'my_match');
     this.next();
   },
   waitOn:function(){

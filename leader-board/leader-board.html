@@ -9,7 +9,8 @@
       <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId='nomatch' }}">Leader Board</a></li>
     {{/if}}
     <li><a href="{{ pathFor 'upload_player' _id=thisTournament._id }}">Upload Player</a></li>
-    <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id }}">All Matches</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id query='q=all_match'}}">All Matches</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id query='q=my_match' }}">My Matches</a></li>
   </ul>
   
   {{#if isThereMatchPlayed}}

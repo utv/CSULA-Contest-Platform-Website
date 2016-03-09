@@ -11,7 +11,8 @@
       {{/if}}
 
       <li><a href="{{ pathFor 'upload_player' _id=this._id }}">Upload Player</a></li>
-      <li><a href="{{ pathFor 'matches' _tourid=this._id }}">All Matches</a></li>
+      <li><a href="{{ pathFor 'matches' _tourid=this._id query='q=all_match'}}">All Matches</a></li>
+      <li><a href="{{ pathFor 'matches' _tourid=this._id query='q=my_match' }}">My Matches</a></li>
     </ul>
   <!-- {{/each}} -->
 </template>

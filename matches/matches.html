@@ -11,19 +11,35 @@
     </tr>
   </thead>
   <tbody>
-    {{#each latest_matches}}
-      <tr>
-        <td>
-          <a href="{{ pathFor 'match_replay' _id=_id._str }}">Watch</a>
-        </td>
-        <td>
-          {{#each result}}
-            <div>{{username}} : {{score}}</div>
-          {{/each}}
-        </td>
-        <td>{{createdAt}}</td>
-      </tr>
-    {{/each}}
+    {{#if isShowMyMatch}}
+      {{#each my_latest_matches}}
+        <tr>
+          <td>
+            <a href="{{ pathFor 'match_replay' _id=_id._str }}">Watch</a>
+          </td>
+          <td>
+            {{#each result}}
+              <div>{{username}} : {{score}}</div>
+            {{/each}}
+          </td>
+          <td>{{createdAt}}</td>
+        </tr>
+      {{/each}}
+    {{else}}
+      {{#each latest_matches}}
+        <tr>
+          <td>
+            <a href="{{ pathFor 'match_replay' _id=_id._str }}">Watch</a>
+          </td>
+          <td>
+            {{#each result}}
+              <div>{{username}} : {{score}}</div>
+            {{/each}}
+          </td>
+          <td>{{createdAt}}</td>
+        </tr>
+      {{/each}}
+    {{/if}}  
   </tbody>
 </table>
 <button class="fluid ui button" id="load">Load More</button>

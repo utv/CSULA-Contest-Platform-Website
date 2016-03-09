@@ -1,11 +1,15 @@
 
 if (Meteor.isClient) {
-
+  Template.show_tournament.helpers({
+    gameDescription: function() {
+      return Games.findOne(new Meteor.Collection.ObjectID(this.gameid)).description;
+    }
+  });
   
 }
 
 Router.route('show_tournament', {
-  path: '/tournament/:_id',
+  path: '/show_tournament/:_id',
   name: 'show_tournament',
   layoutTemplate: 'appBody',
   template: 'show_tournament',
@@ -29,7 +33,7 @@ Router.route('show_tournament', {
     }
   },
   waitOn:function(){
-    return [ Meteor.subscribe('tournaments') ];
+    return [ Meteor.subscribe('tournaments'), Meteor.subscribe('games') ];
     
   },
   action: function() {
