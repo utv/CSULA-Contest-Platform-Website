@@ -12,12 +12,12 @@ if (Meteor.isServer) {
     var ttt_tour = "ttt_for_users";
     var hex_tour = "hexx_5000";
     
-    var theTour = "bttt-2";
-    var theGameName = bidding_tictactoe;
+    var theTour = "ttt-13";
+    var theGameName = tictactoe;
     var theGameid = Games.findOne({name: theGameName})._id._str;
     var randomPlayerPath = "/Users/Amata/.ggp-server/compiled/myRandomPlayer-Thu Dec 03 2015 16:33:15 GMT-0800 (PST)";
 
-    // var theUsers = getUsers(1, 2);
+    // var theUsers = getUsers(1, 10);
     // createTournament(theTour, theGameName, theGameid, theUsers);
     // uploadPlayers(theTour, randomPlayerPath, theUsers);
     console.log("number of players in " + theTour + " is " + 
