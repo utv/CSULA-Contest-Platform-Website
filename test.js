@@ -14,14 +14,14 @@ if (Meteor.isServer) {
     
     var theTour = "ttt-13";
     var theGameName = tictactoe;
-    var theGameid = Games.findOne({name: theGameName})._id._str;
-    var randomPlayerPath = "/Users/Amata/.ggp-server/compiled/myRandomPlayer-Thu Dec 03 2015 16:33:15 GMT-0800 (PST)";
+    //var theGameid = Games.findOne({name: theGameName})._id._str;
+    //var randomPlayerPath = "/Users/Amata/.ggp-server/compiled/myRandomPlayer-Thu Dec 03 2015 16:33:15 GMT-0800 (PST)";
 
     // var theUsers = getUsers(1, 10);
     // createTournament(theTour, theGameName, theGameid, theUsers);
     // uploadPlayers(theTour, randomPlayerPath, theUsers);
-    console.log("number of players in " + theTour + " is " + 
-      Players.find({tournament: theTour, status: "compiled"}).count());
+    //console.log("number of players in " + theTour + " is " + 
+    //  Players.find({tournament: theTour, status: "compiled"}).count());
   });
   
   function getUsers(from, to) {
