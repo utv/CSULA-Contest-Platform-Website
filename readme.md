@@ -3,6 +3,6 @@
 
 Features
 
-1. Upload bot
+1. Uploads bot
 2. Leader Board
-3. Watch Replay
+3. Watches Replay
