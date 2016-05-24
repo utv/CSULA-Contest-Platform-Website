@@ -5,7 +5,7 @@
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    console.log("Before creating new users, Number of users = " + Meteor.users.find().count());  
+    // console.log("Before creating new users, Number of users = " + Meteor.users.find().count());  
     var tictactoe = "Tic-Tac-Toe";
     var hex = "Hex";
     var bidding_tictactoe = "Bidding Tic-Tac-Toe";
