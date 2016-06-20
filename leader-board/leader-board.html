@@ -1,17 +1,15 @@
 <template name="leader_board">
   
-  <h4>{{thisTournament.name}}</h4>
+  <!-- <h4>{{tournament.name}}</h4>
   <ul>
-    <li><a href="{{ pathFor 'show_tournament' _id=thisTournament._id }}">Info</a></li>
-    {{#if isThereMatchPlayed}}
-      <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId=thisTournament.leaderBoardId._str }}">Leader Board</a></li>
-    {{else}}
-      <li><a href="{{ pathFor 'leader_board' _id=thisTournament._id _leaderBoardId='nomatch' }}">Leader Board</a></li>
-    {{/if}}
-    <li><a href="{{ pathFor 'upload_player' _id=thisTournament._id }}">Upload Player</a></li>
-    <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id query='q=all_match'}}">All Matches</a></li>
-    <li><a href="{{ pathFor 'matches' _tourid=thisTournament._id query='q=my_match' }}">My Matches</a></li>
-  </ul>
+    <li><a href="{{ pathFor 'show_tournament' _id=tournament._id._str }}">Info</a></li>
+    <li><a href="{{ pathFor 'leader_board' _tourid=tournament._id._str }}">Leader Board</a></li>
+    <li><a href="{{ pathFor 'upload_player' _id=tournament._id._str }}">Upload Player</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=all_match'}}">All Matches</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=my_match' }}">Matches by my latest player</a></li>
+  </ul> -->
+
+  {{> tournament_menu }}
   
   {{#if isThereMatchPlayed}}
   <table class="ui celled table">

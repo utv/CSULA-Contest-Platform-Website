@@ -4,35 +4,22 @@ if (Meteor.isClient) {
   Template.upload_player.helpers({
     specificFormData: function() {
       return { 
-                tournament: this.name,
-                tourid: this._id,
+                tourid: this.tournament._id._str,
                 owner: Meteor.userId(),
                 username: Meteor.user().username
               }
     },
     isLastPlayerFail: function () {
-      return Players.findOne(
-              { 
-                username: Meteor.user().username, 
-                tournament: this.name,
-              },
-              { sort: {createdAt: -1} }).status === "fail";
+      return this.player.srcStatus === "fail";
     },
     isUploaded: function () {
-      return Players.findOne(
-              { 
-                username: Meteor.user().username, 
-                tournament: this.name,
-              },
-              { sort: {createdAt: -1} }).status === "uploaded";
+      return this.player.srcStatus === "uploaded";
     },
     isCompiled: function () {
-      return Players.findOne(
-              { 
-                username: Meteor.user().username, 
-                tournament: this.name,
-              },
-              { sort: {createdAt: -1} }).status === "compiled";
+      return this.player.srcStatus === "compiled";
+    },
+    isNoSource: function () {
+      return this.player.srcStatus === "";
     }
   });
 }
@@ -62,20 +49,22 @@ if (Meteor.isServer) {
       },
       finished: function(fileInfo, formData) {
         // perform a disk operation
-        var createDate = new Date();
-        if (formData && formData.tournament != null) {
-          Players.insert({
-            username: formData.username,
-            tournament_id: formData.tourid,
-            tournament: formData.tournament,
-            pathToZip: fileInfo.name,
-            pathToClasses: "",
-            status: "uploaded",
-            createdAt: createDate
-            // owner: formData.owner,
-            // name: "Recognizing name",
-            // tournament: formData.tournament,
-          });
+        console.log(formData.tourid);
+        if (formData !== null) {
+          var tourID = new Meteor.Collection.ObjectID(formData.tourid);
+          var tourName = formData.tournament;
+          var username = formData.username;
+          var fileName = fileInfo.name;
+          console.log(tourID);
+          Players.update({ tournament_id: tourID, username: username }, 
+            {$set: 
+              {
+                pathToZip: fileName,
+                srcStatus: "uploaded",
+                createdAt: new Date().getTime()
+              }
+            }
+          );
         }
       }
     });
@@ -83,40 +72,44 @@ if (Meteor.isServer) {
 }
 
 Router.route('upload_player', {
-  path: '/upload_player/:_id',
+  path: '/upload_player/:_tourid',
   layoutTemplate: 'appBody',
   template: 'upload_player',
   onBeforeAction: function () {
     if (!Meteor.user()) {
-      // Router.go('login');
       return;
     }
     if (Meteor.user().username === 'admin') {
-      Router.go('/tournaments/'); 
+      Router.go('/tournaments/');
     }
     else {
       // check if a current user already joined this tournament.
-      var tournament = Tournaments.findOne(this.params._id);
-      var isJoined = _.some(tournament.users, function(aUser) {
-        return aUser.username == Meteor.user().username; 
-      });
+      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+      var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+      if (player === undefined) {
+        Router.go('/join/' + this.params._tourid); 
+      }
 
-      if (!isJoined) Router.go('/join/' + this.params._id); 
-      else this.next();
+      this.next();
     }
   },
   waitOn:function(){
-    return Meteor.subscribe('playersTournament', 
-            Meteor.user().username, 
-            this.params._id);
-    // return [  Meteor.subscribe('tournaments'), 
-    //           Meteor.subscribe('players') ];
+    return [ 
+      Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('matches', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('players'),
+      Meteor.subscribe('games')
+    ];
   },
   action : function () {
     this.render();
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id});
-    // return Tournaments.findOne({_id: this.params._id}, {sort: {createdAt: -1}});    
+    return {
+      tournament: Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._tourid)),
+      player: Players.findOne({
+        tournament_id: new Meteor.Collection.ObjectID(this.params._tourid), 
+        username: Meteor.user().username})
+    };
   }
 });

@@ -1,4 +1,13 @@
 <template name="upload_player">
+  <!-- <h4>{{tournament.name}}</h4>
+  <ul>
+    <li><a href="{{ pathFor 'show_tournament' _id=tournament._id._str }}">Info</a></li>
+    <li><a href="{{ pathFor 'leader_board' _tourid=tournament._id._str }}">Leader Board</a></li>
+    <li><a href="{{ pathFor 'upload_player' _id=tournament._id._str }}">Upload Player</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=all_match'}}">All Matches</a></li>
+    <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=my_match' }}">Matches by my latest player</a></li>
+  </ul> -->
+
   {{> tournament_menu }}
   
   <p>
@@ -11,15 +20,21 @@
     Status: Ready.
     </p>
   {{else}}
-    {{#if isLastPlayerFail}}
+    {{#if isNoSource}}
       <p style="color:red">
-    Status: Failed.
+    Status: Please upload your first player.
     </p>
-    {{else}}
-      {{#if isUploaded}}
-        <p style="color:blue">
-      Status: Unzipping and compiling.
+      {{else}}
+      {{#if isLastPlayerFail}}
+        <p style="color:red">
+      Status: Failed.
       </p>
+      {{else}}
+        {{#if isUploaded}}
+          <p style="color:blue">
+        Status: Unzipping and compiling.
+        </p>
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}

@@ -31,7 +31,9 @@ if (Meteor.isClient) {
             return;
           }
           
-          Session.set('passwordSaved', true);
+          if (response) {
+            Session.set('passwordSaved', true);
+          }
         });
       } 
     }
@@ -52,18 +54,6 @@ if (Meteor.isClient) {
   });
 }
 
-if (Meteor.isServer) {
-  Meteor.methods({
-
-    saveTournamentPassword: function (tourId, password) {
-      // body...
-      var genSalt = Random.id();
-      var genHash = CryptoJS.SHA256(genSalt + password).toString();
-      return Tournaments.update(tourId, {$set: {salt: genSalt, hash: genHash}});
-    }
-  });
-}
-
 Router.route('set_tournament_passwd', {
   path: '/set_tournament_passwd/:_id',
   layoutTemplate: 'appBody',
@@ -80,6 +70,6 @@ Router.route('set_tournament_passwd', {
     return [ Meteor.subscribe('tournaments') ];
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id});
+    return Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._id));
   }
 });

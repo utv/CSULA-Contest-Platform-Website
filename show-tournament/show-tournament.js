@@ -2,14 +2,14 @@
 if (Meteor.isClient) {
   Template.show_tournament.helpers({
     gameDescription: function() {
-      return Games.findOne(new Meteor.Collection.ObjectID(this.gameid)).description;
+      return Games.findOne(new Meteor.Collection.ObjectID(this.tournament.gameid._str)).description;
     }
   });
   
 }
 
 Router.route('show_tournament', {
-  path: '/show_tournament/:_id',
+  path: '/show_tournament/:_tourid',
   name: 'show_tournament',
   layoutTemplate: 'appBody',
   template: 'show_tournament',
@@ -23,17 +23,19 @@ Router.route('show_tournament', {
       this.next();
     else {
       // check if a current user already joined this tournament.
-      var tournament = Tournaments.findOne(this.params._id);
-      var isJoined = _.some(tournament.users, function(aUser) {
-        return aUser.username == Meteor.user().username; 
-      });
-
-      if (!isJoined) Router.go('/join/' + this.params._id); 
-      else this.next();  
+      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+      var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+      if (player === undefined) Router.go('/join/' + this.params._tourid);
+      else this.next();
     }
   },
   waitOn:function(){
-    return [ Meteor.subscribe('tournaments'), Meteor.subscribe('games') ];
+    return [ 
+      Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('matches', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('players'),
+      Meteor.subscribe('games')
+    ];
     
   },
   action: function() {
@@ -41,6 +43,8 @@ Router.route('show_tournament', {
   },
   
   data: function () {
-    return Tournaments.findOne({_id: this.params._id});
+    return {
+      tournament: Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._tourid))
+    };
   }
 });

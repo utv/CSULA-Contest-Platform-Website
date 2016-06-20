@@ -9,6 +9,15 @@ table.table_form {
     border-spacing: 10px;
 }
 
+div.display-area {
+    margin: 2%;
+    text-align: center;
+}
+
+table.board {
+    margin: 0 auto;   
+}
+
 .success_msg {
     color:green;
 }

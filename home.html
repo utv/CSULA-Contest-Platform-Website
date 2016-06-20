@@ -6,20 +6,14 @@
     <!-- <a href="{{ pathFor 'activate'}}" class="item">Activate Users</a> -->
     <a href="{{ pathFor 'tournaments'}}" class="item">Tournaments</a>
     <a href="{{ pathFor 'howto'}}" class="item">How to write a player</a>
-    
-    <!-- {{#if currentUser}}
-      <div class="right menu">
-        <a href="#" class="ui item" id="user_account">{{currentUser.username}}</a>
-      </div>
-    {{else}}
-      <div class="right menu">
-        <a href="{{ pathFor 'login' }}" class="ui item" id="user_account">Login</a>
-      </div>  
-    {{/if}} -->
-    
   </div>
 
   <div id="main" class="display-content">
-      {{> yield}}
+      {{#if currentUser }}
+        {{> yield}}
+      {{else}}
+        <p>Please log in.</p>
+      {{/if}}
+
   </div>
 </template>

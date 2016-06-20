@@ -1,4 +1,5 @@
 <template name="tournaments">
+  {{#if currentUser }}
   {{#if isAdmin}}
     <form class="js-new-tournament">
       <table class="table_form">
@@ -44,7 +45,6 @@
           <!-- <th>To archive</th> -->
         {{/if}}
         <th>Game</th>
-        <th>Number of Players</th>
       </tr>
     </thead>
     <tbody>
@@ -53,5 +53,7 @@
       {{/each}}
     </tbody>
   </table>
-
+  {{else}}
+    Please log in!
+  {{/if}}
 </template>

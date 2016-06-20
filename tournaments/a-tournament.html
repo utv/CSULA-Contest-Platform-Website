@@ -1,12 +1,6 @@
 <template name="a_tournament">
   <tr>
-    <!-- {{#if noMatch}}
-      <td><a href="{{ pathFor 'show_tournament' _matchid='nomatch' }}">{{name}}</a></td>
-    {{else}}
-      <td><a href="{{ pathFor 'show_tournament' _matchid=this.lastMatchId._str }}">{{name}}</a></td>
-    {{/if}} -->
-
-    <td><a href="{{ pathFor 'show_tournament'  }}">{{name}}</a></td>
+    <td><a href="{{ pathFor 'show_tournament' _tourid=this._id._str  }}">{{name}}</a></td>
     {{#if isAdmin}}
       <td>
         {{#if isRunning status}}
@@ -15,16 +9,8 @@
           <a href="#" id="start">> Start</a>
         {{/if}}
       </td>
-      <td><a href="{{ pathFor 'set_tournament_passwd' }}">Set</a></td>
-      <!-- <td>
-        {{#if isRunning status}}
-          {{else}}
-          <a href="#" id="archived">Go</a>
-        {{/if}}
-      </td> -->
-        
+      <td><a href="{{ pathFor 'set_tournament_passwd' _tourid=this._id._str }}">Set</a></td> 
     {{/if}}
     <td>{{game}}</td>
-    <td>{{users.length}}</td>
   </tr>
 </template>

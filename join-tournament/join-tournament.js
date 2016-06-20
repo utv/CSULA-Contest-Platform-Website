@@ -4,18 +4,20 @@ if (Meteor.isClient) {
     'submit .join_form': function (event) {
       event.preventDefault();
       var password = $('input[name=password]').val();
-      var tournament = Tournaments.findOne(this._id);
-      var userPassword = CryptoJS.SHA256(tournament.salt + password).toString();
-      
-      if (userPassword === tournament.hash) {
-        Meteor.call("addUserToTournament", this._id, Meteor.user().username);
-        Router.go('show_tournament', {_id: this._id});
-        return;
-      } 
-      else {
-        Session.set('tournamentPasswordNotCorrect', true);
-        return;
-      }
+      Meteor.call("addUserToTournament", this._id, Meteor.user().username, password, 
+        function(error, result) {
+          if (error) { 
+            console.log('Error adding new player!'); 
+          }else {
+            if (result) {
+              Router.go('show_tournament', {_tourid: result});
+              return;
+            } else {
+              Session.set('tournamentPasswordNotCorrect', true);
+              return;
+            }
+          }
+        });
     }
   });
 
@@ -26,21 +28,8 @@ if (Meteor.isClient) {
   });
 }
 
-Meteor.methods({
-  addUserToTournament: function (tourId, username) {
-    if (! Meteor.userId()) {
-      throw new Meteor.Error("not-authorized");
-    }
-
-    Tournaments.update(
-      { _id: tourId }, 
-      { $push: {users: {username: username}} }
-    );
-  }
-});
-
 Router.route('join_tournament', {
-  path: '/join/:_id',
+  path: '/join/:_tourid',
   layoutTemplate: 'appBody',
   template: 'join_tournament',
   onBeforeAction: function () {
@@ -49,17 +38,24 @@ Router.route('join_tournament', {
       // Router.go('login');
       return;
     }
-
-    if (Meteor.user().username === 'admin') {
-      Router.go('/tournaments/'); 
+    if (Meteor.user().username === 'admin') Router.go('/tournaments/'); 
+    
+    var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+    var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+    
+    if (player === undefined) {
+      this.next();
+      //return;
     }
-
-    this.next();
+    else Router.go('/show_tournament/' + this.params._tourid);
   },
   waitOn:function(){
-    return [ Meteor.subscribe('tournaments') ];
+    return [ Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('match', new Meteor.Collection.ObjectID(this.params._tourid)),
+      Meteor.subscribe('players'),
+      Meteor.subscribe('games') ];
   },
   data: function () {
-    return Tournaments.findOne({_id: this.params._id});
+    return Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._tourid));
   }
 });

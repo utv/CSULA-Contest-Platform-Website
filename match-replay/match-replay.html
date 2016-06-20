@@ -1,11 +1,12 @@
 <template name="matchReplay">
-  <div id="display-area">
-    <button id="first">First</button>
-    <button id="prev">Prev</button>
-    <button id="next">Next</button>
-    <button id="last">Last</button>
-
+  <div class="display-area">
     <div>
+      <button id="first">First</button>
+      <button id="prev">Prev</button>
+      <button id="next">Next</button>
+      <button id="last">Last</button>  
+    </div>
+    <div style="margin-top: 1%">
       {{#each matchResult}}
         <label style="margin-left:2em; font-size:20px">{{username}} : {{role}}</label>
       {{/each}}

@@ -1,15 +1,15 @@
 if (Meteor.isClient) {
 
   Template.tournament_menu.helpers({
-    noMatch: function() {
-      return this.leaderBoardId === 'nomatch';
-    }
+    // noMatch: function() {
+    //   return this.leaderBoardId === 'nomatch';
+    // }
   });
 }
 
 
   Router.route('tournament_menu', {
-  path: '/tournament_menu/:_id',
+  path: '/tournament_menu/:_tourid',
   layoutTemplate: 'appBody',
   template: 'tournament_menu',
   onBeforeAction: function () {
@@ -22,17 +22,20 @@ if (Meteor.isClient) {
     }
     else {
       // check if a current user already joined this tournament.
-      var tournament = Tournaments.findOne(this.params._id);
-      var isJoined = _.some(tournament.users, function(aUser) {
-        return aUser.username == Meteor.user().username; 
-      });
+      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+      var player = Players.findOne({tournament_tourid: tourID, username: Meteor.user().username});
+      if (player === undefined) {
+        Router.go('/join/' + this.params._tourid); 
+      }
 
-      if (!isJoined) Router.go('/join/' + this.params._id); 
-      else this.next();
+      this.next();
     }
   },
   waitOn:function(){
-    return [ Meteor.subscribe('tournamentsByTourid', this.params._id) ];
+    return [ 
+      Meteor.subscribe('players'),
+      Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)) 
+    ];
     
   },
   action : function () {
@@ -40,6 +43,8 @@ if (Meteor.isClient) {
   },
   
   data: function () {
-    return Tournaments.findOne({_id: this.params._id});
+    return {
+      tournament: Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._tourid))
+    };
   }
 });
