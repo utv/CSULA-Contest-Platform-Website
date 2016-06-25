@@ -55,7 +55,7 @@ if (Meteor.isClient) {
 }
 
 Router.route('set_tournament_passwd', {
-  path: '/set_tournament_passwd/:_id',
+  path: '/set_tournament_passwd/:_tourid',
   layoutTemplate: 'appBody',
   template: 'set_tournament_passwd',
   onBeforeAction: function () {
@@ -64,12 +64,22 @@ Router.route('set_tournament_passwd', {
       // Router.go('login');
       return;
     }
+
+    if (Meteor.user().username !== 'admin') {
+      // check if a current user already joined this tournament.
+      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+      var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+      if (player === undefined) {
+        Router.go('/join/' + this.params._tourid); 
+      }
+    }
+
     this.next();
   },
   waitOn:function(){
     return [ Meteor.subscribe('tournaments') ];
   },
   data: function () {
-    return Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._id));
+    return Tournaments.findOne(new Meteor.Collection.ObjectID(this.params._tourid));
   }
 });
