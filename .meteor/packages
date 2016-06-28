@@ -12,7 +12,6 @@ semantic:ui-css
 iron:router
 jparker:crypto-sha256
 random
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -25,3 +24,5 @@ reload
 ejson
 spacebars
 check
+standard-minifier-css
+standard-minifier-js
