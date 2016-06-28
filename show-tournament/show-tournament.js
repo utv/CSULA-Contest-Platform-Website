@@ -9,7 +9,7 @@ if (Meteor.isClient) {
 }
 
 Router.route('show_tournament', {
-  path: '/show_tournament/:_tourid',
+  path: '/show_tournament/:_tourid/:gameid',
   name: 'show_tournament',
   layoutTemplate: 'appBody',
   template: 'show_tournament',
@@ -34,7 +34,7 @@ Router.route('show_tournament', {
       Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
       Meteor.subscribe('matches', new Meteor.Collection.ObjectID(this.params._tourid)),
       Meteor.subscribe('players'),
-      Meteor.subscribe('games')
+      Meteor.subscribe('game', new Meteor.Collection.ObjectID(this.params.gameid))
     ];
     
   },

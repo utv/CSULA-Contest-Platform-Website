@@ -24,4 +24,8 @@ if (Meteor.isServer) {
   Meteor.publish('games', function(){
     return Games.find();
   });
+
+  Meteor.publish('game', function(gameid){
+    return Games.find({_id: gameid});
+  });
 }

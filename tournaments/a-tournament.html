@@ -1,6 +1,6 @@
 <template name="a_tournament">
   <tr>
-    <td><a href="{{ pathFor 'show_tournament' _tourid=this._id._str  }}">{{name}}</a></td>
+    <td><a href="{{ pathFor 'show_tournament' _tourid=this._id._str gameid=this.gameid._str}}">{{name}}</a></td>
     {{#if isAdmin}}
       <td>
         {{#if isRunning status}}

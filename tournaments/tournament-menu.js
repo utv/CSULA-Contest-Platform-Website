@@ -34,7 +34,7 @@ if (Meteor.isClient) {
   waitOn:function(){
     return [ 
       Meteor.subscribe('players'),
-      Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)) 
+      Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid))
     ];
     
   },
