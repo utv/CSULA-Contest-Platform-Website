@@ -8,13 +8,34 @@ if (Meteor.isClient) {
   });
 }
 
-Router.route('/', function () {
-  this.layout('appBody');
-  if (!Meteor.user()) {
-    // Router.go('login');
-    return;
+
+Router.route('home', {
+  path: '/',
+  layoutTemplate: 'appBody',
+  template: 'tournaments',
+  onBeforeAction: function () {
+    if (!Meteor.user()) {
+      // Router.go('login');
+      return;
+    }
+  },
+  action : function () {
+    this.render();
   }
-});
+});  
+  
+
+
+// Router.route('/', function () {
+//   // this.layout('appBody');
+//   if (!Meteor.user()) {
+//     // Router.go('login');
+//     return;
+//   }
+
+//   Router.go('/tournaments');
+//   return;
+// });
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
