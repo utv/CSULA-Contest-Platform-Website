@@ -97,8 +97,7 @@ Router.route('upload_player', {
     return [ 
       Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
       Meteor.subscribe('matches', new Meteor.Collection.ObjectID(this.params._tourid)),
-      Meteor.subscribe('players'),
-      Meteor.subscribe('games')
+      Meteor.subscribe('players')
     ];
   },
   action : function () {
