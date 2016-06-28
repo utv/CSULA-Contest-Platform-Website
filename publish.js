@@ -18,7 +18,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('match', function(matchid){
-    return Matches.find({_id: matchid});
+    return Matches.find({_id: matchid}, {limit: 20});
   });
 
   Meteor.publish('games', function(){
