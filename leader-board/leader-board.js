@@ -3,7 +3,7 @@ if (Meteor.isClient) {
 
   Template.leader_board.helpers({
     isThereMatchPlayed: function () {
-      if (this.players !== undefined) 
+      if (Matches.findOne({tournament_id: this.tournament._id}) !== undefined) 
         return true;
       return false;
     },

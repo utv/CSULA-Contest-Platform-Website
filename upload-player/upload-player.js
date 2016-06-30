@@ -5,6 +5,7 @@ if (Meteor.isClient) {
     specificFormData: function() {
       return { 
                 tourid: this.tournament._id._str,
+                tourName: this.tournament.name,
                 owner: Meteor.userId(),
                 username: Meteor.user().username
               }
@@ -48,24 +49,33 @@ if (Meteor.isServer) {
         return base + '.' + extension;
       },
       finished: function(fileInfo, formData) {
-        // perform a disk operation
-        console.log(formData.tourid);
+        // add user to tournament
+        var tourid = new Meteor.Collection.ObjectID(formData.tourid);
+        var tourName = formData.tourName;
+        var username = formData.username;
+        var fileName = fileInfo.name;
+
         if (formData !== null) {
-          var tourID = new Meteor.Collection.ObjectID(formData.tourid);
-          var tourName = formData.tournament;
-          var username = formData.username;
-          var fileName = fileInfo.name;
-          console.log(tourID);
-          Players.update({ tournament_id: tourID, username: username }, 
-            {$set: 
-              {
-                pathToZip: fileName,
-                srcStatus: "uploaded",
-                createdAt: new Date().getTime()
-              }
-            }
-          );
+          Players.upsert({ tournament_id: tourid, username: username }, 
+          {
+            username: username,
+            tournament_id: tourid,
+            tournament: tourName,
+            pathToZip: fileName,
+            pathToClasses: "",
+            status: "busy",
+            srcStatus: "uploaded",
+            rating: 0.000,
+            mu: 0.000,
+            sigma: 0.000,
+            numMatch: 0,
+            win: 0,
+            lose: 0,
+            draw: 0,
+            createdAt: new Date().getTime()
+          });
         }
+
       }
     });
   });
@@ -82,16 +92,18 @@ Router.route('upload_player', {
     if (Meteor.user().username === 'admin') {
       Router.go('/tournaments/');
     }
-    else {
-      // check if a current user already joined this tournament.
-      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
-      var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
-      if (player === undefined) {
-        Router.go('/join/' + this.params._tourid); 
-      }
+    // else {
+    //   // check if a current user already joined this tournament.
+    //   var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+    //   var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+    //   if (player === undefined) {
+    //     Router.go('/join/' + this.params._tourid); 
+    //   }
 
-      this.next();
-    }
+    //   this.next();
+    // }
+
+    this.next();
   },
   waitOn:function(){
     return [ 
