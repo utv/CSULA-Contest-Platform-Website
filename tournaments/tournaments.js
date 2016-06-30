@@ -65,10 +65,10 @@ Router.route('/tournaments', {
   layoutTemplate: 'appBody',
   template: 'tournaments',
   onBeforeAction: function () {
-    if (!Meteor.user()) {
-      // Router.go('login_warning');
-      return;
-    }
+    // if (!Meteor.user()) {
+    //   // Router.go('login_warning');
+    //   return;
+    // }
     Session.set('tournamentExisted', false);
     Session.set('tournamentBlank', false);
     this.next();

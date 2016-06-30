@@ -12,13 +12,28 @@ if (Meteor.isClient) {
 Router.route('home', {
   path: '/',
   layoutTemplate: 'appBody',
-  template: 'tournaments',
-  onBeforeAction: function () {
-    if (!Meteor.user()) {
-      // Router.go('login');
-      return;
-    }
-  },
+  template: 'welcome',
+  // onBeforeAction: function () {
+  //   if (!Meteor.user()) {
+  //     // Router.go('login');
+  //     return;
+  //   }
+  // },
+  action : function () {
+    this.render();
+  }
+});  
+
+Router.route('welcome', {
+  path: '/welcome',
+  layoutTemplate: 'appBody',
+  template: 'welcome',
+  // onBeforeAction: function () {
+  //   if (!Meteor.user()) {
+  //     // Router.go('login');
+  //     return;
+  //   }
+  // },
   action : function () {
     this.render();
   }

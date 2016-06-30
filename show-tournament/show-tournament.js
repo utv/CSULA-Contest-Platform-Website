@@ -13,22 +13,22 @@ Router.route('show_tournament', {
   name: 'show_tournament',
   layoutTemplate: 'appBody',
   template: 'show_tournament',
-  onBeforeAction: function () {
-    if (!Meteor.user()) {
-      // Router.go('login');
-      return;
-    }
+  // onBeforeAction: function () {
+  //   // if (!Meteor.user()) {
+  //   //   // Router.go('login');
+  //   //   return;
+  //   // }
     
-    if (Meteor.user().username === 'admin') 
-      this.next();
-    else {
-      // check if a current user already joined this tournament.
-      var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
-      var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
-      if (player === undefined) Router.go('/join/' + this.params._tourid);
-      else this.next();
-    }
-  },
+  //   // if (Meteor.user().username === 'admin') 
+  //   //   this.next();
+  //   // else {
+  //   //   // check if a current user already joined this tournament.
+  //   //   var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+  //   //   var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+  //   //   if (player === undefined) Router.go('/join/' + this.params._tourid);
+  //   //   else this.next();
+  //   // }
+  // },
   waitOn:function(){
     return [ 
       Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),

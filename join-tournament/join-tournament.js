@@ -17,7 +17,7 @@ if (Meteor.isClient) {
               return;
             }
           }
-        });
+      });
     }
   });
 

@@ -14,11 +14,11 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('matches', function(tourid){
-    return Matches.find({tournament_id: tourid});
+    return Matches.find({tournament_id: tourid}, {limit: 20});
   });
 
   Meteor.publish('match', function(matchid){
-    return Matches.find({_id: matchid}, {limit: 20});
+    return Matches.find({_id: matchid});
   });
 
   Meteor.publish('games', function(){

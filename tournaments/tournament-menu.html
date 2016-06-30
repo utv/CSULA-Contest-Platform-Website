@@ -3,8 +3,12 @@
   <ul>
     <li><a href="{{ pathFor 'show_tournament' _tourid=tournament._id._str gameid=tournament.gameid._str}}">Info</a></li>
     <li><a href="{{ pathFor 'leader_board' _tourid=tournament._id._str }}">Leader Board</a></li>
+    {{#if currentUser }}
     <li><a href="{{ pathFor 'upload_player' _tourid=tournament._id._str }}">Upload Player</a></li>
+    {{/if}}
     <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=all_match'}}">All Matches</a></li>
-    <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=my_match' }}">Matches by my latest player</a></li>
+    {{#if currentUser }}
+      <li><a href="{{ pathFor 'matches' _tourid=tournament._id._str query='q=my_match' }}">Matches by my latest player</a></li>
+    {{/if}}
   </ul>
 </template>

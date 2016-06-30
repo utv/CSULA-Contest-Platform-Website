@@ -43,13 +43,13 @@ if (Meteor.isClient) {
 
 Router.route('match_replay', {
   path: '/match_replay/:_matchid',
-  onBeforeAction: function () {
-    if (!Meteor.user()) {
-      // Router.go('login');
-      return;
-    }
-    this.next();
-  },
+  // onBeforeAction: function () {
+  //   if (!Meteor.user()) {
+  //     // Router.go('login');
+  //     return;
+  //   }
+  //   this.next();
+  // },
   waitOn:function(){
     return Meteor.subscribe('match', new Meteor.Collection.ObjectID(this.params._matchid));
   },

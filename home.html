@@ -1,19 +1,19 @@
 <template name="appBody">
   <!-- {{> loginButtons}} -->
   <div class="ui menu" id="main-menu">
-    <a href="#" class="item">AI Contest by CSULA-CS</a>
-    <a href="#" class="item">{{> loginButtons}}</a>
-    <!-- <a href="{{ pathFor 'activate'}}" class="item">Activate Users</a> -->
-    <a href="{{ pathFor 'tournaments'}}" class="item">Tournaments</a>
-    <a href="{{ pathFor 'howto'}}" class="item">How to write a player</a>
+    <a href="#" class="item login_button">{{> loginButtons}}</a>
+    <!-- <a href="{{ pathFor 'howto'}}" class="item right_menu">How to write a player</a> -->
+    <!-- <a href="{{ pathFor 'tournaments'}}" class="item right_menu">Tournaments</a> -->
+    <a href="{{ pathFor 'welcome'}}" class="item ">CSULA Contest Platform</a>
+
   </div>
 
   <div id="main" class="display-content">
-      {{#if currentUser }}
+      <!-- {{#if currentUser }}
         {{> yield}}
       {{else}}
-        <p>Please log in.</p>
-      {{/if}}
-
+        {{> welcome}}
+      {{/if}} -->
+      {{> yield}}
   </div>
 </template>
