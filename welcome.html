@@ -3,23 +3,53 @@
   <p><center><b>Welcome to The Contest Platform</b></center></p>
   <p>What is Contest Platform?</p>
   <ul>
-    <li>A platform for AIs to play games with other AIs developed by users.</li>
+    <li>A platform for AI developed by you to play games with other AIs. You write code and upload to the server, 
+      we take care of the tournaments. 
+      <br> We introduce "tic tac toe" for beginners, other more advance games are coming.
+    </li>
   </ul>
 
-  <p>How can I join tournaments?</p>
+  <p>How to join tournaments?</p>
   <ul>
     <li>Create login and you can join any tournaments, there is no password required.</li>
   </ul>
 
-  <p>How do I develop my AI?</p>
-  <ul>
-    <li>We provide a framework and sample player to develop and test your AI(Java). <br> Make a zip of the player and upload your zip file to join a tournament. Each tournament has upload file section.</li>
-    <li><a href="">Download TicTacToe player</a></li>
+  <p>How to develop AI?</p>
+  <ul class="tutorial-list">
+    <li>1. <a href="">Download TicTacToe player</a></li>
+
+    <li>2. Extract and import a project using Eclipse. 
+      <br> Import the project Eclipse as an "Existing Project" or "Project from Git".
+    </li>
+
+    <li>3. Develop your AI using a sample player, located in ggp-base/src/main/java/tictactoe/TicTacToeLogic.java, read comments then you are ready to write your own AI.
+      <br> You can add your own files and folders under /tictactoe
+    </li>
+
+    <li>4. Test your AI by running ./gradlew kiosk(use gradlew.bat instead if on Windows)
+      <br> Choose TicTacToeGamer for opponent, Tic-Tac-Toe for game and click run.
+      <br> This will create a game between your AI and you, Click on a cell you want then click "Submit move" at lower right corner to begins playing game. If you fix your AI, you must rerun this again. 
+    </li>
+
+    <li>5. Upload your AI.
+      <br> Choose a tournament you want to join, password is blank if you are asked to fill in.
+      <br> Click "Upload" to go to file upload section.
+      <br> Zip ggp-base/src/main/java/tictactoe and upload this file as your AI.
+      <br> Wait for a while for the system to compile your AI. It will notify you, if your AI is failed or compiled.
+    </li>
+
+    <li>6. Watch your AI plays.
+      <br> Go to "Matches" and click "Watch" to see each game result. New game result will be automatically displayed to you without page refresh.
+    </li>
+
+    <li>7. Leader board
+      <br> Go to "Leader board" to see a stat of your AI and others, and also automatically refresh.
+    </li>
   </ul>
 
   <p>Credits</p>
   <ul>
-    <li><a href="http://www.ggp.org">General Game Playing(GGP)</a> by Stanford as a game engine</li>
+    <li><a href="http://www.ggp.org">General Game Playing(GGP)</a> by Stanford as a game engine and framework.</li>
     <li><a href="https://github.com/nsp/JSkills">JSkills</a>, a detailed implementation of the TrueSkill algorithm in Java.</li>
   </ul>
 

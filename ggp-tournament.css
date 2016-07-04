@@ -22,6 +22,10 @@ table.board {
     margin: 0 auto;   
 }
 
+ul.tutorial-list li {
+    margin:0 0 10px 0;
+}
+
 .success_msg {
     color:green;
 }

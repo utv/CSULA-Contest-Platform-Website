@@ -8,6 +8,10 @@ if (Meteor.isClient) {
   });
 
   Template.matchReplay.events({
+    'click .back-button': function (event) {
+      history.back();
+    },
+
     'click #next': function(event) {
       if (Session.get('index') < Session.get('replayLen') - 1) {
         Session.set('index', Session.get('index') + 1);
@@ -43,6 +47,8 @@ if (Meteor.isClient) {
 
 Router.route('match_replay', {
   path: '/match_replay/:_matchid',
+  layoutTemplate: 'appBody',
+  template: 'matchReplay',
   // onBeforeAction: function () {
   //   if (!Meteor.user()) {
   //     // Router.go('login');
@@ -54,7 +60,8 @@ Router.route('match_replay', {
     return Meteor.subscribe('match', new Meteor.Collection.ObjectID(this.params._matchid));
   },
   action : function () {
-    this.render('matchReplay');
+    this.render();
+    // this.render('matchReplay');
   },
   data: function () {
     // ***

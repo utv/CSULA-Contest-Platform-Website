@@ -42,8 +42,8 @@ if (Meteor.isClient) {
       
       return Matches.find(
         { 
-          tournament_id: this.tournament._id, 
-          result: { "$elemMatch" : { "username" : Meteor.user().username} },
+          tournament_id: this.tournament._id,
+          "result.username" : Meteor.user().username,
           createdAt: {$gt: playerCreatedAt}
         }, 
         { sort: {_id: -1}, limit: Session.get('number_of_match') });
@@ -60,25 +60,25 @@ Router.route('matches', {
   path: '/matches/:_tourid',
   layoutTemplate: 'appBody',
   template: 'matches',
-  // onBeforeAction: function () {
-  //   if (!Meteor.user()) {
-  //     // Router.go('login');
-  //     return;
-  //   }
+  onBeforeAction: function () {
+    // if (!Meteor.user()) {
+    //   // Router.go('login');
+    //   return;
+    // }
 
-  //   if (Meteor.user().username !== 'admin') {
-  //     // check if a current user already joined this tournament.
-  //     var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
-  //     var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
-  //     if (player === undefined) {
-  //       Router.go('/join/' + this.params._tourid); 
-  //     }
-  //   }
+    // if (Meteor.user().username !== 'admin') {
+    //   // check if a current user already joined this tournament.
+    //   var tourID = new Meteor.Collection.ObjectID(this.params._tourid);
+    //   var player = Players.findOne({tournament_id: tourID, username: Meteor.user().username});
+    //   if (player === undefined) {
+    //     Router.go('/join/' + this.params._tourid); 
+    //   }
+    // }
 
-  //   Session.set('number_of_match', 10);
-  //   Session.set('isShowMyMatch', this.params.query.q === 'my_match');
-  //   this.next();
-  // },
+    Session.set('number_of_match', 10);
+    Session.set('isShowMyMatch', this.params.query.q === 'my_match');
+    this.next();
+  },
   waitOn:function(){
     return [
       Meteor.subscribe('tournament', new Meteor.Collection.ObjectID(this.params._tourid)),
