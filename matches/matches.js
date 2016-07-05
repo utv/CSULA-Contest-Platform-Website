@@ -1,7 +1,6 @@
 
 if (Meteor.isClient) {
-  Session.set('number_of_match', 10);
-
+  
   Template.matches.events({
     'click #load': function(event) {
       event.preventDefault();
@@ -12,14 +11,12 @@ if (Meteor.isClient) {
   Template.matches.helpers({
     isThereMatchPlayed: function () {
       if (Session.get('isShowMyMatch')) {
-        var playerCreatedAt = Players.findOne({tournament_id: this.tournament._id, username: Meteor.user().username}).createdAt;
-        var my_match = Matches.findOne(
-          { 
-            tournament_id: this.tournament._id, 
-            result: { "$elemMatch" : { "username" : Meteor.user().username} },
-            createdAt: {$gt: playerCreatedAt}
-          });
-        if (my_match !== undefined) return true;
+        var myMatch = Matches.findOne(
+        { 
+          tournament_id: this.tournament._id,
+          "result.username" : Meteor.user().username,
+        }, {sort: {_id: -1}});
+        if (myMatch !== undefined) return true;
         return false;
       }
 
@@ -28,25 +25,22 @@ if (Meteor.isClient) {
       return false;
     },
 
-    isShowMyMatch: function() {
-      return  Session.get('isShowMyMatch');
-    },
-
-    latest_matches: function () {
-      return Matches.find({ tournament_id: this.tournament._id }, { sort: {_id: -1}, limit: Session.get('number_of_match') });
-    },
-
-    my_latest_matches: function () {
-      var playerCreatedAt = 
+    displayedMatch: function () {
+      if (Session.get('isShowMyMatch')) {
+        var playerCreatedAt = 
         Players.findOne({tournament_id: this.tournament._id, username: Meteor.user().username}).createdAt;
       
-      return Matches.find(
-        { 
-          tournament_id: this.tournament._id,
-          "result.username" : Meteor.user().username,
-          createdAt: {$gt: playerCreatedAt}
-        }, 
-        { sort: {_id: -1}, limit: Session.get('number_of_match') });
+        return Matches.find(
+          { 
+            tournament_id: this.tournament._id,
+            "result.username" : Meteor.user().username,
+            createdAt: {$gt: playerCreatedAt}
+          }, 
+          { sort: {_id: -1}, limit: Session.get('number_of_match') });
+        }
+      else {
+        return Matches.find({ tournament_id: this.tournament._id }, { sort: {_id: -1}, limit: Session.get('number_of_match') });
+      }
     },
 
     toDate: function (time) {
